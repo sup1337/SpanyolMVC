@@ -1,0 +1,21 @@
+<div class="container mt-5 d-flex justify-content-center">
+    <div class="card shadow" style="max-width: 30rem;">
+        <div class="card-body">
+            <h2 class="card-title text-center mb-4">Quiz Setup</h2>
+            @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage as string))
+            {
+                <div class="alert alert-danger">
+                    @ViewBag.ErrorMessage
+                </div>
+            }
+            <form asp-controller="Quiz" asp-action="Index" method="get">
+                <div class="mb-3">
+                    <label for="numberOfQuestions" class="form-label">Number of Questions:</label>
+                    <input type="number" name="numberOfQuestions" id="numberOfQuestions" 
+                           class="form-control" min="1" value="@Model" required />
+                </div>
+                <button type="submit" class="btn btn-dark w-100">Start Quiz</button>
+            </form>
+        </div>
+    </div>
+</div>

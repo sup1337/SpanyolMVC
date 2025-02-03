@@ -1,0 +1,39 @@
+@model System.Collections.Generic.List<SpanyolMVC.Models.ViewModels.QuizResultViewModel>
+
+
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Quiz Results</h2>
+
+    <table class="table table-bordered table-striped shadow-sm">
+        <thead class="table-dark">
+        <tr>
+            <th>Hungarian</th>
+            <th>English</th>
+            <th>Your Answer</th>
+            <th>Correct Answer</th>
+            <th>Result</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var result in Model)
+        {
+            <tr>
+                <td>@result.Hungarian</td>
+                <td>@result.English</td>
+                <td>@result.UserAnswer</td>
+                <td>@result.Infinitive</td>
+                <td class="text-center">
+                    @(result.IsCorrect ?
+                        "✔️" :
+                        "❌")
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+    <div class="text-center mt-4">
+        <a asp-action="Create" class="btn btn-dark">Try Again</a>
+    </div>
+</div>

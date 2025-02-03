@@ -1,0 +1,27 @@
+@{
+    ViewData["Title"] = "Upload Excel File";
+}
+
+<h2>Upload Excel File</h2>
+
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+}
+
+<div class="card">
+    <div class="card-header bg-dark text-white">
+        Upload Excel File
+    </div>
+    <div class="card-body">
+        <form asp-action="UploadFile" asp-controller="Words" method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="file" class="form-label">Choose Excel File</label>
+                <input type="file" class="form-control" id="file" name="file" accept=".xlsx,.xls" required>
+            </div>
+            <button type="submit" class="btn btn-dark">
+                <i class="bi bi-upload"></i> Upload
+            </button>
+        </form>
+    </div>
+</div>

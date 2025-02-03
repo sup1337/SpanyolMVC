@@ -1,0 +1,323 @@
+@model SpanyolMVC.Models.ViewModels.AddWordRequest
+@{
+}
+
+<div class="bg-secondary bg-opacity-10 py-2">
+    <div class="container">
+        <h1>Add Words - Admin Functionality</h1>
+    </div>
+</div>
+
+<div class="container py-5">
+    <form method="post">
+        <div class="mb-3">
+            <label class="form-label">Hungarian</label>
+            <input type="text" class="form-control" id="hungarian" asp-for="Hungarian" required/>
+            <span asp-validation-for="Hungarian" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">English</label>
+            <input type="text" class="form-control" id="english" asp-for="English" required/>
+            <span asp-validation-for="English" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Spanish</label>
+            <input type="text" class="form-control" id="infinitive" asp-for="Infinitive" required/>
+            <span asp-validation-for="Infinitive" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Italian</label>
+            <input type="text" class="form-control" id="italian" asp-for="Italian" required/>
+            <span asp-validation-for="Italian" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">French</label>
+            <input type="text" class="form-control" id="french" asp-for="French" required/>
+            <span asp-validation-for="French" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">German</label>
+            <input type="text" class="form-control" id="german" asp-for="German" required/>
+            <span asp-validation-for="German" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Gerund</label>
+            <input type="text" class="form-control" id="gerund" asp-for="Gerund" required/>
+            <span asp-validation-for="Gerund" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Participle</label>
+            <input type="text" class="form-control" id="participle" asp-for="Participle" required/>
+            <span asp-validation-for="Participle" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Present1</label>
+            <input type="text" class="form-control" id="present1" asp-for="Present1" required/>
+            <span asp-validation-for="Present1" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Present2</label>
+            <input type="text" class="form-control" id="present2" asp-for="Present2" required/>
+            <span asp-validation-for="Present2" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Present3</label>
+            <input type="text" class="form-control" id="present3" asp-for="Present3" required/>
+            <span asp-validation-for="Present3" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Present4</label>
+            <input type="text" class="form-control" id="present4" asp-for="Present4" required/>
+            <span asp-validation-for="Present4" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Present5</label>
+            <input type="text" class="form-control" id="present5" asp-for="Present5" required/>
+            <span asp-validation-for="Present5" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Present6</label>
+            <input type="text" class="form-control" id="present6" asp-for="Present6" required/>
+            <span asp-validation-for="Present6" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Imperfect1</label>
+            <input type="text" class="form-control" id="imperfect1" asp-for="Imperfect1" required/>
+            <span asp-validation-for="Imperfect1" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Imperfect2</label>
+            <input type="text" class="form-control" id="imperfect2" asp-for="Imperfect2" required/>
+            <span asp-validation-for="Imperfect2" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Imperfect3</label>
+            <input type="text" class="form-control" id="imperfect3" asp-for="Imperfect3" required/>
+            <span asp-validation-for="Imperfect3" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Imperfect4</label>
+            <input type="text" class="form-control" id="imperfect4" asp-for="Imperfect4" required/>
+            <span asp-validation-for="Imperfect4" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Imperfect5</label>
+            <input type="text" class="form-control" id="imperfect5" asp-for="Imperfect5" required/>
+            <span asp-validation-for="Imperfect5" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Imperfect6</label>
+            <input type="text" class="form-control" id="imperfect6" asp-for="Imperfect6" required/>
+            <span asp-validation-for="Imperfect6" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Indefinite1</label>
+            <input type="text" class="form-control" id="indefinite1" asp-for="Indefinite1" required/>
+            <span asp-validation-for="Indefinite1" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Indefinite2</label>
+            <input type="text" class="form-control" id="indefinite2" asp-for="Indefinite2" required/>
+            <span asp-validation-for="Indefinite2" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Indefinite3</label>
+            <input type="text" class="form-control" id="indefinite3" asp-for="Indefinite3" required/>
+            <span asp-validation-for="Indefinite3" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Indefinite4</label>
+            <input type="text" class="form-control" id="indefinite4" asp-for="Indefinite4" required/>
+            <span asp-validation-for="Indefinite4" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Indefinite5</label>
+            <input type="text" class="form-control" id="indefinite5" asp-for="Indefinite5" required/>
+            <span asp-validation-for="Indefinite5" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Indefinite6</label>
+            <input type="text" class="form-control" id="indefinite6" asp-for="Indefinite6" required/>
+            <span asp-validation-for="Indefinite6" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Future1</label>
+            <input type="text" class="form-control" id="future1" asp-for="Future1" required/>
+            <span asp-validation-for="Future1" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Future2</label>
+            <input type="text" class="form-control" id="future2" asp-for="Future2" required/>
+            <span asp-validation-for="Future2" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Future3</label>
+            <input type="text" class="form-control" id="future3" asp-for="Future3" required/>
+            <span asp-validation-for="Future3" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Future4</label>
+            <input type="text" class="form-control" id="future4" asp-for="Future4" required/>
+            <span asp-validation-for="Future4" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Future5</label>
+            <input type="text" class="form-control" id="future5" asp-for="Future5" required/>
+            <span asp-validation-for="Future5" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Future6</label>
+            <input type="text" class="form-control" id="future6" asp-for="Future6" required/>
+            <span asp-validation-for="Future6" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Conditional1</label>
+            <input type="text" class="form-control" id="conditional1" asp-for="Conditional1" required/>
+            <span asp-validation-for="Conditional1" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Conditional2</label>
+            <input type="text" class="form-control" id="conditional2" asp-for="Conditional2" required/>
+            <span asp-validation-for="Conditional2" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Conditional3</label>
+            <input type="text" class="form-control" id="conditional3" asp-for="Conditional3" required/>
+            <span asp-validation-for="Conditional3" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Conditional4</label>
+            <input type="text" class="form-control" id="conditional4" asp-for="Conditional4" required/>
+            <span asp-validation-for="Conditional4" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Conditional5</label>
+            <input type="text" class="form-control" id="conditional5" asp-for="Conditional5" required/>
+            <span asp-validation-for="Conditional5" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Conditional6</label>
+            <input type="text" class="form-control" id="conditional6" asp-for="Conditional6" required/>
+            <span asp-validation-for="Conditional6" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">SubjunctivePresent1</label>
+            <input type="text" class="form-control" id="subjunctivePresent1" asp-for="SubjunctivePresent1" required/>
+            <span asp-validation-for="SubjunctivePresent1" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">SubjunctivePresent2</label>
+            <input type="text" class="form-control" id="subjunctivePresent2" asp-for="SubjunctivePresent2" required/>
+            <span asp-validation-for="SubjunctivePresent2" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">SubjunctivePresent3</label>
+            <input type="text" class="form-control" id="subjunctivePresent3" asp-for="SubjunctivePresent3" required/>
+            <span asp-validation-for="SubjunctivePresent3" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">SubjunctivePresent4</label>
+            <input type="text" class="form-control" id="subjunctivePresent4" asp-for="SubjunctivePresent4" required/>
+            <span asp-validation-for="SubjunctivePresent4" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">SubjunctivePresent5</label>
+            <input type="text" class="form-control" id="subjunctivePresent5" asp-for="SubjunctivePresent5" required/>
+            <span asp-validation-for="SubjunctivePresent5" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">SubjunctivePresent6</label>
+            <input type="text" class="form-control" id="subjunctivePresent6" asp-for="SubjunctivePresent6" required/>
+            <span asp-validation-for="SubjunctivePresent6" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">SubjunctiveImperfect1</label>
+            <input type="text" class="form-control" id="subjunctiveImperfect1" asp-for="SubjunctiveImperfect1" required/>
+            <span asp-validation-for="SubjunctiveImperfect1" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">SubjunctiveImperfect2</label>
+            <input type="text" class="form-control" id="subjunctiveImperfect2" asp-for="SubjunctiveImperfect2" required/>
+            <span asp-validation-for="SubjunctiveImperfect2" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">SubjunctiveImperfect3</label>
+            <input type="text" class="form-control" id="subjunctiveImperfect3" asp-for="SubjunctiveImperfect3" required/>
+            <span asp-validation-for="SubjunctiveImperfect3" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">SubjunctiveImperfect4</label>
+            <input type="text" class="form-control" id="subjunctiveImperfect4" asp-for="SubjunctiveImperfect4" required/>
+            <span asp-validation-for="SubjunctiveImperfect4" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">SubjunctiveImperfect5</label>
+            <input type="text" class="form-control" id="subjunctiveImperfect5" asp-for="SubjunctiveImperfect5" required/>
+            <span asp-validation-for="SubjunctiveImperfect5" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">SubjunctiveImperfect6</label>
+            <input type="text" class="form-control" id="subjunctiveImperfect6" asp-for="SubjunctiveImperfect6" required/>
+            <span asp-validation-for="SubjunctiveImperfect6" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">ImperativePositive2</label>
+            <input type="text" class="form-control" id="imperativePositive2" asp-for="ImperativePositive2" required/>
+            <span asp-validation-for="ImperativePositive2" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">ImperativePositive3</label>
+            <input type="text" class="form-control" id="imperativePositive3" asp-for="ImperativePositive3" required/>
+            <span asp-validation-for="ImperativePositive3" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">ImperativePositive4</label>
+            <input type="text" class="form-control" id="imperativePositive4" asp-for="ImperativePositive4" required/>
+            <span asp-validation-for="ImperativePositive4" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">ImperativePositive5</label>
+            <input type="text" class="form-control" id="imperativePositive5" asp-for="ImperativePositive5" required/>
+            <span asp-validation-for="ImperativePositive5" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">ImperativePositive6</label>
+            <input type="text" class="form-control" id="imperativePositive6" asp-for="ImperativePositive6" required/>
+            <span asp-validation-for="ImperativePositive6" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">ImperativeNegative2</label>
+            <input type="text" class="form-control" id="imperativeNegative2" asp-for="ImperativeNegative2" required/>
+            <span asp-validation-for="ImperativeNegative2" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">ImperativeNegative3</label>
+            <input type="text" class="form-control" id="imperativeNegative3" asp-for="ImperativeNegative3" required/>
+            <span asp-validation-for="ImperativeNegative3" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">ImperativeNegative4</label>
+            <input type="text" class="form-control" id="imperativeNegative4" asp-for="ImperativeNegative4" required/>
+            <span asp-validation-for="ImperativeNegative4" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">ImperativeNegative5</label>
+            <input type="text" class="form-control" id="imperativeNegative5" asp-for="ImperativeNegative5" required/>
+            <span asp-validation-for="ImperativeNegative5" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">ImperativeNegative6</label>
+            <input type="text" class="form-control" id="imperativeNegative6" asp-for="ImperativeNegative6" required/>
+            <span asp-validation-for="ImperativeNegative6" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <button type="submit" class="btn btn-dark">Submit</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
