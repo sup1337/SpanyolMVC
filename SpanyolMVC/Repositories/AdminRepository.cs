@@ -15,9 +15,17 @@ public class AdminRepository : IAdminRepository
         _roleManager = roleManager;
     }
     
-    public async Task<List<UserRolesViewModel>> GetAllUsersWithRolesAsync()
+    public async Task<List<UserRolesViewModel>> GetAllUsersWithRolesAsync(string searchTerm = null)
     {
-        var users = await _userManager.Users.ToListAsync();
+        var usersQuery = _userManager.Users.AsQueryable();
+
+        // Ha van keresési kifejezés, szűrjük a felhasználókat e-mail cím alapján
+        if (!string.IsNullOrEmpty(searchTerm))
+        {
+            usersQuery = usersQuery.Where(u => u.Email.Contains(searchTerm));
+        }
+        
+        var users = await usersQuery.ToListAsync();
         var userRolesViewModel = new List<UserRolesViewModel>();
 
         foreach (var user in users)

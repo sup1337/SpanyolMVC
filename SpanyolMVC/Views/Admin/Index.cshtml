@@ -6,6 +6,16 @@
 
 <h1>User Roles</h1>
 
+<!-- Keresési űrlap -->
+<form asp-action="Search" method="get" class="form-inline mb-3">
+    <div class="input-group">
+        <input type="text" name="searchTerm" class="form-control" placeholder="Search by email..." />
+        <div class="input-group-append">
+            <button type="submit" class="btn btn-warning ms-3">Search</button>
+        </div>
+    </div>
+</form>
+
 @if (TempData["SuccessMessage"] != null)
 {
     <div class="alert alert-success">

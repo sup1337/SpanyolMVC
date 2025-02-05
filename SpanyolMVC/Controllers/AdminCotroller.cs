@@ -15,10 +15,22 @@ public class AdminController : Controller
         _adminRepository = adminRepository;
     }
 
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(string searchTerm = null)
     {
-        var usersWithRoles = await _adminRepository.GetAllUsersWithRolesAsync();
+        var usersWithRoles = await _adminRepository.GetAllUsersWithRolesAsync(searchTerm);
         return View(usersWithRoles);
+    }
+    
+    [HttpGet]
+    public async Task<IActionResult> Search(string searchTerm)
+    {
+        if (string.IsNullOrEmpty(searchTerm))
+        {
+            return RedirectToAction("Index");
+        }
+
+        var users = await _adminRepository.GetAllUsersWithRolesAsync(searchTerm);
+        return View("Index", users);
     }
 
     public async Task<IActionResult> Manage(Guid userId)
