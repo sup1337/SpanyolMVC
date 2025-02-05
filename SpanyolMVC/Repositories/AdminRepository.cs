@@ -1,0 +1,83 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using SpanyolMVC.Models.ViewModels;
+
+namespace SpanyolMVC.Repositories;
+
+public class AdminRepository : IAdminRepository
+{
+    private readonly UserManager<IdentityUser> _userManager;
+    private readonly RoleManager<IdentityRole> _roleManager;
+
+    public AdminRepository(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+    {
+        _userManager = userManager;
+        _roleManager = roleManager;
+    }
+    
+    public async Task<List<UserRolesViewModel>> GetAllUsersWithRolesAsync()
+    {
+        var users = await _userManager.Users.ToListAsync();
+        var userRolesViewModel = new List<UserRolesViewModel>();
+
+        foreach (var user in users)
+        {
+            var roles = await _userManager.GetRolesAsync(user);
+            userRolesViewModel.Add(new UserRolesViewModel
+            {
+                UserId = Guid.Parse(user.Id), 
+                Email = user.Email,
+                Roles = roles
+            });
+        }
+
+        return userRolesViewModel;
+    }
+
+    public async Task<ManageUserRolesViewModel> GetUserRolesAsync(Guid userId)
+    {
+        var user = await _userManager.FindByIdAsync(userId.ToString());
+        if (user == null)
+        {
+            return null;
+        }
+
+        var roles = await _roleManager.Roles.ToListAsync();
+        var userRoles = await _userManager.GetRolesAsync(user);
+
+        var model = new ManageUserRolesViewModel
+        {
+            UserId = Guid.Parse(user.Id),
+            UserEmail = user.Email,
+            Roles = roles.Select(r => new RoleViewModel
+            {
+                RoleId = Guid.Parse(r.Id),
+                RoleName = r.Name,
+                Selected = userRoles.Contains(r.Name)
+            }).ToList()
+        };
+
+        return model;
+    }
+
+    public async Task<bool> UpdateUserRolesAsync(Guid userId, List<string> roles)
+    {
+        var user = await _userManager.FindByIdAsync(userId.ToString());
+        if (user == null)
+        {
+            return false;
+        }
+
+        var currentRoles = await _userManager.GetRolesAsync(user);
+        var removeResult = await _userManager.RemoveFromRolesAsync(user, currentRoles);
+
+        if (!removeResult.Succeeded)
+        {
+            return false;
+        }
+
+        var addResult = await _userManager.AddToRolesAsync(user, roles);
+
+        return addResult.Succeeded;
+    }
+}

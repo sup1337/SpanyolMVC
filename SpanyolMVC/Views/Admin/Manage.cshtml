@@ -1,0 +1,40 @@
+@model SpanyolMVC.Models.ViewModels.ManageUserRolesViewModel
+
+@{
+    ViewData["Title"] = "Manage Roles";
+}
+
+<h1>Manage Roles for @Model.UserEmail</h1>
+
+<form asp-action="Manage" method="post">
+    <input type="hidden" asp-for="UserId" />
+    <input type="hidden" asp-for="UserEmail" />
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Role</th>
+            <th>Selected</th>
+        </tr>
+        </thead>
+        <tbody>
+        @for (int i = 0; i < Model.Roles.Count; i++)
+        {
+            <tr>
+                <td>
+                    <input type="hidden" asp-for="@Model.Roles[i].RoleId" />
+                    <input type="hidden" asp-for="@Model.Roles[i].RoleName" />
+                    @Model.Roles[i].RoleName
+                </td>
+                <td>
+                    <input asp-for="@Model.Roles[i].Selected" />
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+    <button type="submit" class="btn btn-dark mb-3">Save</button>
+</form>
+
+<a asp-action="Index" class="btn btn-secondary mb-3">Back to List</a>

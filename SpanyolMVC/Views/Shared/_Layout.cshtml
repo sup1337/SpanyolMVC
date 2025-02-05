@@ -53,6 +53,13 @@
                         <a class="nav-link text-light" asp-area="" asp-controller="Quiz" asp-action="Create">Quiz</a>
                     </li>
                     }
+                    <!-- Admin Dashboard gomb -->
+                    @if (signInManager.IsSignedIn(User) && await userManager.IsInRoleAsync(await userManager.GetUserAsync(User), "Admin"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="Admin" asp-action="Index">Admin Dashboard</a>
+                        </li>
+                    }
                 </ul>
                 
                 <partial name="_LoginPartial"/>
