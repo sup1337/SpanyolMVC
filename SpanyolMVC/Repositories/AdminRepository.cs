@@ -80,4 +80,28 @@ public class AdminRepository : IAdminRepository
 
         return addResult.Succeeded;
     }
+    
+    public async Task<bool> DeleteUserAsync(Guid userId)
+    {
+        var user = await _userManager.FindByIdAsync(userId.ToString());
+        if (user == null)
+        {
+            return false; // Felhasználó nem található
+        }
+
+        // Felhasználó szerepköreinek törlése
+        var userRoles = await _userManager.GetRolesAsync(user);
+        await _userManager.RemoveFromRolesAsync(user, userRoles);
+
+        // Felhasználó claim-jeinek törlése
+        var userClaims = await _userManager.GetClaimsAsync(user);
+        foreach (var claim in userClaims)
+        {
+            await _userManager.RemoveClaimAsync(user, claim);
+        }
+
+        // Felhasználó törlése
+        var result = await _userManager.DeleteAsync(user);
+        return result.Succeeded;
+    }
 }

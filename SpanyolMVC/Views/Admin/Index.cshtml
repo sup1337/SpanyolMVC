@@ -6,6 +6,20 @@
 
 <h1>User Roles</h1>
 
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
 <table class="table">
     <thead>
     <tr>
@@ -21,7 +35,11 @@
             <td>@user.Email</td>
             <td>@string.Join(", ", user.Roles)</td>
             <td>
-                <a asp-action="Manage" asp-route-userId="@user.UserId" class="btn btn-dark">Manage Roles</a>
+                <a asp-action="Manage" asp-route-userId="@user.UserId" class="btn btn-primary">Manage Roles</a>
+                <form asp-action="Delete" method="post" style="display:inline;">
+                    <input type="hidden" name="userId" value="@user.UserId" />
+                    <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this user?');">Delete</button>
+                </form>
             </td>
         </tr>
     }

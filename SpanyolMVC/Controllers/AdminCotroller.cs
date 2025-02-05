@@ -55,4 +55,21 @@ public class AdminController : Controller
 
         return RedirectToAction("Index");
     }
+    
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Delete(Guid userId)
+    {
+        var result = await _adminRepository.DeleteUserAsync(userId);
+        if (!result)
+        {
+            TempData["ErrorMessage"] = "Failed to delete user.(cant delete admin)";
+        }
+        else
+        {
+            TempData["SuccessMessage"] = "User deleted successfully.";
+        }
+
+        return RedirectToAction("Index");
+    }
 }
