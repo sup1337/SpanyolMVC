@@ -1,7 +1,6 @@
 # **QUIZ APPLICATION**
 
-This application is a simple vocabulary quiz that helps users practice Spanish translations based on Hungarian and English words. It selects a random set of words from the database, presents them to the user, and evaluates their performance.
-
+This application is an engaging vocabulary quiz designed to help users practice Spanish translations using Hungarian and English words. It dynamically selects a random set of words from the database, presents them to the user in a quiz format, and evaluates their performance, providing an interactive and educational experience.
 ## Technologies Used
 
 ### ASP\.NET Core
