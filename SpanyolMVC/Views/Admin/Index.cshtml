@@ -2,16 +2,20 @@
 
 @{
     ViewData["Title"] = "User Roles";
+    int nextPage = Convert.ToInt32(ViewBag.PageNumber) + 1;
+    int prevPage = Convert.ToInt32(ViewBag.PageNumber) - 1;
 }
 
 <h1>User Roles</h1>
 
 <!-- Keresési űrlap -->
-<form asp-action="Search" method="get" class="form-inline mb-3">
-    <div class="input-group">
-        <input type="text" name="searchTerm" class="form-control" placeholder="Search by email..." />
-        <div class="input-group-append">
-            <button type="submit" class="btn btn-warning ms-3">Search</button>
+<form method="get" asp-controller="Admin" asp-action="Index">
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col col-md-4 d-flex">
+                <input type="text" class="form-control" name="searchQuery" value="@ViewBag.SearchQuery" placeholder="Search by email..." />
+                <button type="submit" class="btn btn-warning ms-3">Search</button>
+            </div>
         </div>
     </div>
 </form>
@@ -30,28 +34,100 @@
     </div>
 }
 
-<table class="table">
-    <thead>
-    <tr>
-        <th>Email</th>
-        <th>Roles</th>
-        <th>Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var user in Model)
+<div class="container mt-3">
+    @if (Model != null && Model.Any())
     {
-        <tr>
-            <td>@user.Email</td>
-            <td>@string.Join(", ", user.Roles)</td>
-            <td>
-                <a asp-action="Manage" asp-route-userId="@user.UserId" class="btn btn-primary">Manage Roles</a>
-                <form asp-action="Delete" method="post" style="display:inline;">
-                    <input type="hidden" name="userId" value="@user.UserId" />
-                    <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this user?');">Delete</button>
-                </form>
-            </td>
-        </tr>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Email 
+                        <span>
+                            <a class="btn btn-light"
+                               asp-controller="Admin"
+                               asp-action="Index"
+                               asp-route-sortBy="Email"
+                               asp-route-sortDirection="Asc"
+                               asp-route-searchQuery="@ViewBag.SearchQuery">
+                                <i class="bi bi-arrow-up"></i>
+                            </a>
+                            <a class="btn btn-light"
+                               asp-controller="Admin"
+                               asp-action="Index"
+                               asp-route-sortBy="Email"
+                               asp-route-sortDirection="Desc"
+                               asp-route-searchQuery="@ViewBag.SearchQuery">
+                                <i class="bi bi-arrow-down"></i>
+                            </a>
+                        </span></th>
+                    <th>
+                        Roles
+                    </th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model)
+                {
+                    <tr>
+                        <td>@user.Email</td>
+                        <td>@string.Join(", ", user.Roles)</td>
+                        <td>
+                            <a asp-action="Manage" asp-route-userId="@user.UserId" class="btn btn-primary">Manage Roles</a>
+                            <form asp-action="Delete" method="post" style="display:inline;">
+                                <input type="hidden" name="userId" value="@user.UserId" />
+                                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this user?');">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link"
+                       asp-controller="Admin"
+                       asp-action="Index"
+                       asp-route-pageNumber="@prevPage"
+                       asp-route-pageSize="@ViewBag.PageSize"
+                       asp-route-sortBy="@ViewBag.SortBy"
+                       asp-route-sortDirection="@ViewBag.SortDirection">
+                        Previous
+                    </a>
+                </li>
+
+                @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                {
+                    <li class="page-item">
+                        <a class="page-link"
+                           asp-controller="Admin"
+                           asp-action="Index"
+                           asp-route-pageNumber="@i"
+                           asp-route-pageSize="@ViewBag.PageSize"
+                           asp-route-sortBy="@ViewBag.SortBy"
+                           asp-route-sortDirection="@ViewBag.SortDirection">
+                            @i
+                        </a>
+                    </li>
+                }
+
+                <li class="page-item">
+                    <a class="page-link"
+                       asp-controller="Admin"
+                       asp-action="Index"
+                       asp-route-pageNumber="@nextPage"
+                       asp-route-pageSize="@ViewBag.PageSize"
+                       asp-route-sortBy="@ViewBag.SortBy"
+                       asp-route-sortDirection="@ViewBag.SortDirection">
+                        Next
+                    </a>
+                </li>
+            </ul>
+        </nav>
     }
-    </tbody>
-</table>
+    else
+    {
+        <p>No users found!</p>
+    }
+</div>

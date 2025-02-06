@@ -32,7 +32,7 @@
                     @if (signInManager.IsSignedIn(User) && (await userManager.IsInRoleAsync(await userManager.GetUserAsync(User), "Admin") || await userManager.IsInRoleAsync(await userManager.GetUserAsync(User), "Manager")))
                     {
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" text-reset text-decoration-none href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle text-light text-decoration-none"  href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Manage Words
                             </a>
                             <ul class="dropdown-menu">

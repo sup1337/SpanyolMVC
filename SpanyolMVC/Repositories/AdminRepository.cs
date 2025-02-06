@@ -15,17 +15,38 @@ public class AdminRepository : IAdminRepository
         _roleManager = roleManager;
     }
     
-    public async Task<List<UserRolesViewModel>> GetAllUsersWithRolesAsync(string searchTerm = null)
+    public async Task<List<UserRolesViewModel>> GetAllUsersWithRolesAsync(
+        string searchQuery = null,
+        string sortBy = null,
+        string sortDirection = null,
+        int pageNumber = 1,
+        int pageSize = 10)
     {
         var usersQuery = _userManager.Users.AsQueryable();
 
-        // Ha van keresési kifejezés, szűrjük a felhasználókat e-mail cím alapján
-        if (!string.IsNullOrEmpty(searchTerm))
+        // Keresés csak az e-mail cím alapján
+        if (!string.IsNullOrEmpty(searchQuery))
         {
-            usersQuery = usersQuery.Where(u => u.Email.Contains(searchTerm));
+            usersQuery = usersQuery.Where(u => u.Email.Contains(searchQuery));
         }
-        
-        var users = await usersQuery.ToListAsync();
+
+        // Rendezés
+        if (!string.IsNullOrEmpty(sortBy) && !string.IsNullOrEmpty(sortDirection))
+        {
+            if (sortDirection.Equals("Asc", StringComparison.OrdinalIgnoreCase))
+            {
+                usersQuery = usersQuery.OrderBy(u => EF.Property<object>(u, sortBy));
+            }
+            else if (sortDirection.Equals("Desc", StringComparison.OrdinalIgnoreCase))
+            {
+                usersQuery = usersQuery.OrderByDescending(u => EF.Property<object>(u, sortBy));
+            }
+        }
+
+        // Lapozás
+        var skipResults = (pageNumber - 1) * pageSize;
+        var users = await usersQuery.Skip(skipResults).Take(pageSize).ToListAsync();
+
         var userRolesViewModel = new List<UserRolesViewModel>();
 
         foreach (var user in users)
@@ -33,13 +54,25 @@ public class AdminRepository : IAdminRepository
             var roles = await _userManager.GetRolesAsync(user);
             userRolesViewModel.Add(new UserRolesViewModel
             {
-                UserId = Guid.Parse(user.Id), 
+                UserId = Guid.Parse(user.Id),
                 Email = user.Email,
                 Roles = roles
             });
         }
 
         return userRolesViewModel;
+    }
+    public async Task<int> CountAsync(string searchQuery = null)
+    {
+        var usersQuery = _userManager.Users.AsQueryable();
+
+        // Keresés csak az e-mail cím alapján
+        if (!string.IsNullOrEmpty(searchQuery))
+        {
+            usersQuery = usersQuery.Where(u => u.Email.Contains(searchQuery));
+        }
+
+        return await usersQuery.CountAsync();
     }
 
     public async Task<ManageUserRolesViewModel> GetUserRolesAsync(Guid userId)

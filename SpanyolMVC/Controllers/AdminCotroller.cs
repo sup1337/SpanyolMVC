@@ -15,10 +15,38 @@ public class AdminController : Controller
         _adminRepository = adminRepository;
     }
 
-    public async Task<IActionResult> Index(string searchTerm = null)
+    [HttpGet]
+    [ActionName("Index")]
+    public async Task<IActionResult> Index(
+        string searchQuery = null,
+        string sortBy = null,
+        string sortDirection = null,
+        int pageSize = 10,
+        int pageNumber = 1)
     {
-        var usersWithRoles = await _adminRepository.GetAllUsersWithRolesAsync(searchTerm);
-        return View(usersWithRoles);
+        var totalRecords = await _adminRepository.CountAsync(searchQuery);
+        var totalPages = (int)Math.Ceiling((decimal)totalRecords / pageSize);
+
+        if (pageNumber > totalPages)
+        {
+            pageNumber--;
+        }
+
+        if (pageNumber < 1)
+        {
+            pageNumber++;
+        }
+
+        ViewBag.TotalPages = totalPages;
+        ViewBag.SearchQuery = searchQuery;
+        ViewBag.SortBy = sortBy;
+        ViewBag.SortDirection = sortDirection;
+        ViewBag.PageSize = pageSize;
+        ViewBag.PageNumber = pageNumber;
+
+        var users = await _adminRepository.GetAllUsersWithRolesAsync(searchQuery, sortBy, sortDirection, pageNumber, pageSize);
+
+        return View(users);
     }
     
     [HttpGet]
