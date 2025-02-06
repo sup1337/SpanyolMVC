@@ -4,7 +4,10 @@ namespace SpanyolMVC.Repositories;
 
 public interface IWordsRepository
 {
-    Task<IEnumerable<Words>> GetAllWordsAsync();
+    Task<IEnumerable<Words>> GetAllWordsAsync(
+        string? searchQuery = null, 
+        int pageNumber = 1,
+        int pageSize = 100);
     
     Task<Words?> GetWordAsync(Guid id);
     
@@ -17,4 +20,6 @@ public interface IWordsRepository
     Task<List<Words>> GetRandomWordsAsync(int count);
 
     Task BulkInsertFromExcelAsync(string filePath);
+    
+    Task<int> CountAsync(string searchQuery = null);
 }

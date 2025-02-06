@@ -14,9 +14,25 @@ public class WordsRepository:IWordsRepository
         _spanishDbContext = spanishDbContext;
     }
 
-    public async Task<IEnumerable<Words>> GetAllWordsAsync()
+    public async Task<IEnumerable<Words>> GetAllWordsAsync(string? searchQuery = null, int pageNumber = 1, int pageSize = 100)
     {
-        return await _spanishDbContext.Words.ToListAsync();
+        var query = _spanishDbContext.Words.AsQueryable();
+        if (string.IsNullOrWhiteSpace(searchQuery) == false)
+        {
+            query = query.Where(x => x.Infinitive.Contains(searchQuery) ||
+                                     x.English.Contains(searchQuery) ||
+                                     x.Hungarian.Contains(searchQuery) ||
+                                     x.Italian.Contains(searchQuery) ||
+                                     x.French.Contains(searchQuery) ||
+                                     x.German.Contains(searchQuery));
+        }
+        // Pagination
+        // Skip 0 Take 5 -> Page 1 of 5 results
+        // Skip 5 Take next 5 -> Page 2 of 5 results
+        var skipResults = (pageNumber - 1) * pageSize;
+        query = query.Skip(skipResults).Take(pageSize);
+
+        return await query.ToListAsync();
     }
 
     public Task<Words?> GetWordAsync(Guid id)
@@ -214,5 +230,22 @@ public class WordsRepository:IWordsRepository
         {
             await AddWordAsync(word);
         }
+    }
+
+    public async Task<int> CountAsync(string searchQuery = null)
+    {
+        var query = _spanishDbContext.Words.AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(searchQuery))
+        {
+            query = query.Where(x => x.Infinitive.Contains(searchQuery) ||
+                                     x.English.Contains(searchQuery) ||
+                                     x.Hungarian.Contains(searchQuery) ||
+                                     x.Italian.Contains(searchQuery) ||
+                                     x.French.Contains(searchQuery) ||
+                                     x.German.Contains(searchQuery));
+        }
+
+        return await query.CountAsync();
     }
 }

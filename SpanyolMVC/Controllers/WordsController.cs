@@ -6,9 +6,10 @@ using SpanyolMVC.Repositories;
 
 namespace SpanyolMVC.Controllers;
 
+[Authorize(Roles = "Manager")]
 public class WordsController : Controller
 {
-     private readonly IWordsRepository _wordsRepository;
+    private readonly IWordsRepository _wordsRepository;
 
     public WordsController(IWordsRepository wordsRepository)
     {
@@ -16,7 +17,6 @@ public class WordsController : Controller
     }
 
     [HttpGet]
-    [Authorize(Roles = "Manager, Admin")]
     public async Task<IActionResult> Add()
     {
         return View();
@@ -24,7 +24,6 @@ public class WordsController : Controller
 
     [HttpPost]
     [ActionName("Add")]
-    [Authorize(Roles = "Manager, Admin")]
     public async Task<IActionResult> Add(AddWordRequest addWordRequest)
     {
         var word = new Words
@@ -95,15 +94,39 @@ public class WordsController : Controller
     }
 
     [HttpGet]
-    [Authorize(Roles = "Manager, Admin")]
-    public async Task<IActionResult> List()
+    public async Task<IActionResult> List(string? searchQuery,
+        int pageSize = 10,
+        int pageNumber = 1)
     {
-        var words = await _wordsRepository.GetAllWordsAsync();
+        // Összes szó száma a keresési feltétel alapján
+        var totalWords = await _wordsRepository.CountAsync(searchQuery);
+
+        // Oldalak számának kiszámítása
+        var totalPages = (int)Math.Ceiling(totalWords / (double)pageSize);
+
+        // Oldalszám korrekciója
+        if (pageNumber > totalPages)
+        {
+            pageNumber--;
+        }
+
+        if (pageNumber < 1)
+        {
+            pageNumber++;
+        }
+
+        // Adatok átadása a nézetnek
+        ViewBag.TotalPages = totalPages;
+        ViewBag.SearchQuery = searchQuery;
+        ViewBag.PageSize = pageSize;
+        ViewBag.PageNumber = pageNumber;
+
+        // Szavak lekérése a keresési és lapozási feltételek alapján
+        var words = await _wordsRepository.GetAllWordsAsync(searchQuery, pageNumber, pageSize);
         return View(words);
     }
 
     [HttpGet]
-    [Authorize(Roles = "Manager, Admin")]
     public async Task<IActionResult> Edit(Guid id)
     {
         var words = await _wordsRepository.GetWordAsync(id);
@@ -182,72 +205,71 @@ public class WordsController : Controller
     }
 
     [HttpPost]
-    [Authorize(Roles = "Manager, Admin")]
     public async Task<IActionResult> Edit(EditWordsRequest editWordsRequest)
     {
         var word = new Words
         {
             Id = editWordsRequest.Id,
-        Hungarian = editWordsRequest.Hungarian,
-        English = editWordsRequest.English,
-        Italian = editWordsRequest.Italian,
-        French = editWordsRequest.French,
-        German = editWordsRequest.German,
-        Infinitive = editWordsRequest.Infinitive,
-        Gerund = editWordsRequest.Gerund,
-        Participle = editWordsRequest.Participle,
-        Present1 = editWordsRequest.Present1,
-        Present2 = editWordsRequest.Present2,
-        Present3 = editWordsRequest.Present3,
-        Present4 = editWordsRequest.Present4,
-        Present5 = editWordsRequest.Present5,
-        Present6 = editWordsRequest.Present6,
-        Imperfect1 = editWordsRequest.Imperfect1,
-        Imperfect2 = editWordsRequest.Imperfect2,
-        Imperfect3 = editWordsRequest.Imperfect3,
-        Imperfect4 = editWordsRequest.Imperfect4,
-        Imperfect5 = editWordsRequest.Imperfect5,
-        Imperfect6 = editWordsRequest.Imperfect6,
-        Indefinite1 = editWordsRequest.Indefinite1,
-        Indefinite2 = editWordsRequest.Indefinite2,
-        Indefinite3 = editWordsRequest.Indefinite3,
-        Indefinite4 = editWordsRequest.Indefinite4,
-        Indefinite5 = editWordsRequest.Indefinite5,
-        Indefinite6 = editWordsRequest.Indefinite6,
-        Future1 = editWordsRequest.Future1,
-        Future2 = editWordsRequest.Future2,
-        Future3 = editWordsRequest.Future3,
-        Future4 = editWordsRequest.Future4,
-        Future5 = editWordsRequest.Future5,
-        Future6 = editWordsRequest.Future6,
-        Conditional1 = editWordsRequest.Conditional1,
-        Conditional2 = editWordsRequest.Conditional2,
-        Conditional3 = editWordsRequest.Conditional3,
-        Conditional4 = editWordsRequest.Conditional4,
-        Conditional5 = editWordsRequest.Conditional5,
-        Conditional6 = editWordsRequest.Conditional6,
-        SubjunctivePresent1 = editWordsRequest.SubjunctivePresent1,
-        SubjunctivePresent2 = editWordsRequest.SubjunctivePresent2,
-        SubjunctivePresent3 = editWordsRequest.SubjunctivePresent3,
-        SubjunctivePresent4 = editWordsRequest.SubjunctivePresent4,
-        SubjunctivePresent5 = editWordsRequest.SubjunctivePresent5,
-        SubjunctivePresent6 = editWordsRequest.SubjunctivePresent6,
-        SubjunctiveImperfect1 = editWordsRequest.SubjunctiveImperfect1,
-        SubjunctiveImperfect2 = editWordsRequest.SubjunctiveImperfect2,
-        SubjunctiveImperfect3 = editWordsRequest.SubjunctiveImperfect3,
-        SubjunctiveImperfect4 = editWordsRequest.SubjunctiveImperfect4,
-        SubjunctiveImperfect5 = editWordsRequest.SubjunctiveImperfect5,
-        SubjunctiveImperfect6 = editWordsRequest.SubjunctiveImperfect6,
-        ImperativePositive2 = editWordsRequest.ImperativePositive2,
-        ImperativePositive3 = editWordsRequest.ImperativePositive3,
-        ImperativePositive4 = editWordsRequest.ImperativePositive4,
-        ImperativePositive5 = editWordsRequest.ImperativePositive5,
-        ImperativePositive6 = editWordsRequest.ImperativePositive6,
-        ImperativeNegative2 = editWordsRequest.ImperativeNegative2,
-        ImperativeNegative3 = editWordsRequest.ImperativeNegative3,
-        ImperativeNegative4 = editWordsRequest.ImperativeNegative4,
-        ImperativeNegative5 = editWordsRequest.ImperativeNegative5,
-        ImperativeNegative6 = editWordsRequest.ImperativeNegative6
+            Hungarian = editWordsRequest.Hungarian,
+            English = editWordsRequest.English,
+            Italian = editWordsRequest.Italian,
+            French = editWordsRequest.French,
+            German = editWordsRequest.German,
+            Infinitive = editWordsRequest.Infinitive,
+            Gerund = editWordsRequest.Gerund,
+            Participle = editWordsRequest.Participle,
+            Present1 = editWordsRequest.Present1,
+            Present2 = editWordsRequest.Present2,
+            Present3 = editWordsRequest.Present3,
+            Present4 = editWordsRequest.Present4,
+            Present5 = editWordsRequest.Present5,
+            Present6 = editWordsRequest.Present6,
+            Imperfect1 = editWordsRequest.Imperfect1,
+            Imperfect2 = editWordsRequest.Imperfect2,
+            Imperfect3 = editWordsRequest.Imperfect3,
+            Imperfect4 = editWordsRequest.Imperfect4,
+            Imperfect5 = editWordsRequest.Imperfect5,
+            Imperfect6 = editWordsRequest.Imperfect6,
+            Indefinite1 = editWordsRequest.Indefinite1,
+            Indefinite2 = editWordsRequest.Indefinite2,
+            Indefinite3 = editWordsRequest.Indefinite3,
+            Indefinite4 = editWordsRequest.Indefinite4,
+            Indefinite5 = editWordsRequest.Indefinite5,
+            Indefinite6 = editWordsRequest.Indefinite6,
+            Future1 = editWordsRequest.Future1,
+            Future2 = editWordsRequest.Future2,
+            Future3 = editWordsRequest.Future3,
+            Future4 = editWordsRequest.Future4,
+            Future5 = editWordsRequest.Future5,
+            Future6 = editWordsRequest.Future6,
+            Conditional1 = editWordsRequest.Conditional1,
+            Conditional2 = editWordsRequest.Conditional2,
+            Conditional3 = editWordsRequest.Conditional3,
+            Conditional4 = editWordsRequest.Conditional4,
+            Conditional5 = editWordsRequest.Conditional5,
+            Conditional6 = editWordsRequest.Conditional6,
+            SubjunctivePresent1 = editWordsRequest.SubjunctivePresent1,
+            SubjunctivePresent2 = editWordsRequest.SubjunctivePresent2,
+            SubjunctivePresent3 = editWordsRequest.SubjunctivePresent3,
+            SubjunctivePresent4 = editWordsRequest.SubjunctivePresent4,
+            SubjunctivePresent5 = editWordsRequest.SubjunctivePresent5,
+            SubjunctivePresent6 = editWordsRequest.SubjunctivePresent6,
+            SubjunctiveImperfect1 = editWordsRequest.SubjunctiveImperfect1,
+            SubjunctiveImperfect2 = editWordsRequest.SubjunctiveImperfect2,
+            SubjunctiveImperfect3 = editWordsRequest.SubjunctiveImperfect3,
+            SubjunctiveImperfect4 = editWordsRequest.SubjunctiveImperfect4,
+            SubjunctiveImperfect5 = editWordsRequest.SubjunctiveImperfect5,
+            SubjunctiveImperfect6 = editWordsRequest.SubjunctiveImperfect6,
+            ImperativePositive2 = editWordsRequest.ImperativePositive2,
+            ImperativePositive3 = editWordsRequest.ImperativePositive3,
+            ImperativePositive4 = editWordsRequest.ImperativePositive4,
+            ImperativePositive5 = editWordsRequest.ImperativePositive5,
+            ImperativePositive6 = editWordsRequest.ImperativePositive6,
+            ImperativeNegative2 = editWordsRequest.ImperativeNegative2,
+            ImperativeNegative3 = editWordsRequest.ImperativeNegative3,
+            ImperativeNegative4 = editWordsRequest.ImperativeNegative4,
+            ImperativeNegative5 = editWordsRequest.ImperativeNegative5,
+            ImperativeNegative6 = editWordsRequest.ImperativeNegative6
         };
 
         var updatedWord = await _wordsRepository.UpdateWordAsync(word);
@@ -256,7 +278,6 @@ public class WordsController : Controller
         {
             // Show success notification
             ViewBag.SuccessMessage = "Word updated successfully";
-            
         }
         else
         {
@@ -267,24 +288,9 @@ public class WordsController : Controller
         return RedirectToAction("List", new { id = editWordsRequest.Id });
     }
 
-    
-    [HttpPost]
-    [Authorize(Roles = "Manager, Admin")]
-public async Task<IActionResult> Delete(Guid id)
-{
-    var deletedWord = await _wordsRepository.DeleteWordAsync(id);
 
-    if (deletedWord != null)
-    {
-        // Show success notification
-        return RedirectToAction("List");
-    }
-
-    // Show an error notification
-    return RedirectToAction("Edit", new { id });
-}
     [HttpPost]
-    public async Task<IActionResult> DeleteFromList(Guid id)
+    public async Task<IActionResult> Delete(Guid id)
     {
         var deletedWord = await _wordsRepository.DeleteWordAsync(id);
 
@@ -295,40 +301,54 @@ public async Task<IActionResult> Delete(Guid id)
         }
 
         // Show an error notification
+        return RedirectToAction("Edit", new { id });
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> DeleteFromList(Guid id)
+    {
+        var deletedWord = await _wordsRepository.DeleteWordAsync(id);
+
+        if (deletedWord != null)
+        {
+            // Show success notification
+            TempData["SuccessMessage"] = "Words deleted successfully.";
+            return RedirectToAction("List");
+        }
+
+        // Show an error notification
+        TempData["ErrorMessage"] = "Failed to delete Words";
         return RedirectToAction("List");
     }
-    
+
     [HttpGet]
-    [Authorize(Roles = "Manager, Admin")]
     public IActionResult UploadFile()
     {
         return View();
     }
 
     [HttpPost]
-    [Authorize(Roles = "Manager, Admin")]
     public async Task<IActionResult> UploadFile(IFormFile file)
     {
         if (file != null && file.Length > 0)
         {
-           
             var filePath = Path.GetTempFileName();
             using (var stream = System.IO.File.Create(filePath))
             {
                 await file.CopyToAsync(stream);
             }
 
-           
+
             await _wordsRepository.BulkInsertFromExcelAsync(filePath);
 
-            
+
             System.IO.File.Delete(filePath);
 
-            
+
             return RedirectToAction("List");
         }
 
-        
+
         ViewBag.ErrorMessage = "No file uploaded";
         return View();
     }
