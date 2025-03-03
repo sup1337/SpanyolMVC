@@ -4,6 +4,8 @@ using System.ComponentModel.DataAnnotations;
 
 public class AddWordRequest
 { 
+    [Required] 
+    public int Difficulty { get; set; }
     [Required]
     public string Hungarian { get; set; }
     [Required]

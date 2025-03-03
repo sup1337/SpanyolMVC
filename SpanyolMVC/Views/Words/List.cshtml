@@ -2,8 +2,53 @@
 
 @{
     ViewData["Title"] = "Show All Words";
-    int nextPage = Convert.ToInt32(ViewBag.PageNumber) + 1;
-    int prevPage = Convert.ToInt32(ViewBag.PageNumber) - 1;
+    int currentPage = Convert.ToInt32(ViewBag.PageNumber);
+    int totalPages = ViewBag.TotalPages;
+    int nextPage = currentPage + 1;
+    int prevPage = currentPage - 1;
+
+    // Pagination logic
+    var pageNumbers = new List<object>();
+    int delta = 1; // Number of pages to show around the current page
+
+    if (totalPages <= 5)
+    {
+        // Show all pages if there are 5 or fewer
+        for (int i = 1; i <= totalPages; i++)
+        {
+            pageNumbers.Add(i);
+        }
+    }
+    else
+    {
+        // Show first page
+        pageNumbers.Add(1);
+
+        // Calculate window of pages around the current page
+        int windowStart = Math.Max(2, currentPage - delta);
+        int windowEnd = Math.Min(totalPages - 1, currentPage + delta);
+
+        // Add ellipsis if there's a gap between the first page and the window
+        if (windowStart > 2)
+        {
+            pageNumbers.Add("...");
+        }
+
+        // Add pages in the window
+        for (int i = windowStart; i <= windowEnd; i++)
+        {
+            pageNumbers.Add(i);
+        }
+
+        // Add ellipsis if there's a gap between the window and the last page
+        if (windowEnd < totalPages - 1)
+        {
+            pageNumbers.Add("...");
+        }
+
+        // Show last page
+        pageNumbers.Add(totalPages);
+    }
 }
 
 <div class="bg-secondary bg-opacity-10 py-2">
@@ -39,15 +84,13 @@
     </div>
 </form>
 
-
-
-
 <div class="container py-5">
     @if (Model != null && Model.Any())
     {
         <table class="table">
             <thead>
             <tr>
+                <th>Difficulty</th>
                 <th>Hungarian</th>
                 <th>English</th>
                 <th>Italian</th>
@@ -61,6 +104,7 @@
             @foreach (var word in Model)
             {
                 <tr>
+                    <td>@word.Difficulty</td>
                     <td>@word.Hungarian</td>
                     <td>@word.English</td>
                     <td>@word.Italian</td>
@@ -79,43 +123,74 @@
         </table>
 
         <!-- Lapozó -->
-        <nav aria-label="Page navigation example">
+        <nav aria-label="Page navigation">
             <ul class="pagination">
-                <li class="page-item">
-                    <a class="page-link text-dark"
-                       asp-controller="Words"
-                       asp-action="List"
-                       asp-route-pageNumber="@prevPage"
-                       asp-route-pageSize="@ViewBag.PageSize"
-                       asp-route-searchQuery="@ViewBag.SearchQuery">
-                        Previous
-                    </a>
-                </li>
-
-                @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                <!-- Previous Button -->
+                @if (currentPage == 1)
+                {
+                    <li class="page-item disabled">
+                        <span class="page-link text-dark">Previous</span>
+                    </li>
+                }
+                else
                 {
                     <li class="page-item">
                         <a class="page-link text-dark"
                            asp-controller="Words"
                            asp-action="List"
-                           asp-route-pageNumber="@i"
+                           asp-route-pageNumber="@prevPage"
                            asp-route-pageSize="@ViewBag.PageSize"
                            asp-route-searchQuery="@ViewBag.SearchQuery">
-                            @i
+                            Previous
                         </a>
                     </li>
                 }
 
-                <li class="page-item">
-                    <a class="page-link text-dark"
-                       asp-controller="Words"
-                       asp-action="List"
-                       asp-route-pageNumber="@nextPage"
-                       asp-route-pageSize="@ViewBag.PageSize"
-                       asp-route-searchQuery="@ViewBag.SearchQuery">
-                        Next
-                    </a>
-                </li>
+                <!-- Page Numbers -->
+                @foreach (var pageNumber in pageNumbers)
+                {
+                    if (pageNumber is string)
+                    {
+                        <li class="page-item disabled">
+                            <span class="page-link text-dark">...</span>
+                        </li>
+                    }
+                    else
+                    {
+                        int pg = (int)pageNumber;
+                        <li class="page-item @(pg == currentPage ? "active" : "")">
+                            <a class="page-link text-dark"
+                               asp-controller="Words"
+                               asp-action="List"
+                               asp-route-pageNumber="@pg"
+                               asp-route-pageSize="@ViewBag.PageSize"
+                               asp-route-searchQuery="@ViewBag.SearchQuery">
+                                @pg
+                            </a>
+                        </li>
+                    }
+                }
+
+                <!-- Next Button -->
+                @if (currentPage == totalPages)
+                {
+                    <li class="page-item disabled">
+                        <span class="page-link text-dark">Next</span>
+                    </li>
+                }
+                else
+                {
+                    <li class="page-item">
+                        <a class="page-link text-dark"
+                           asp-controller="Words"
+                           asp-action="List"
+                           asp-route-pageNumber="@nextPage"
+                           asp-route-pageSize="@ViewBag.PageSize"
+                           asp-route-searchQuery="@ViewBag.SearchQuery">
+                            Next
+                        </a>
+                    </li>
+                }
             </ul>
         </nav>
     }

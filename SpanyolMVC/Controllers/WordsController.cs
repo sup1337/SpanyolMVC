@@ -28,6 +28,7 @@ public class WordsController : Controller
     {
         var word = new Words
         {
+            Difficulty = addWordRequest.Difficulty,
             Hungarian = addWordRequest.Hungarian,
             English = addWordRequest.English,
             Italian = addWordRequest.Italian,
@@ -136,6 +137,7 @@ public class WordsController : Controller
             var editWordsRequest = new EditWordsRequest
             {
                 Id = words.Id,
+                Difficulty = words.Difficulty,
                 Hungarian = words.Hungarian,
                 English = words.English,
                 Italian = words.Italian,
@@ -210,6 +212,7 @@ public class WordsController : Controller
         var word = new Words
         {
             Id = editWordsRequest.Id,
+            Difficulty = editWordsRequest.Difficulty,
             Hungarian = editWordsRequest.Hungarian,
             English = editWordsRequest.English,
             Italian = editWordsRequest.Italian,

@@ -2,7 +2,9 @@ namespace SpanyolMVC.Models.Domain;
 
 public class Words
 {
-     public Guid Id { get; set; }
+    public Guid Id { get; set; }
+
+    public int Difficulty { get; set; }
     
     public string Hungarian { get; set; } // Magyar szó
     

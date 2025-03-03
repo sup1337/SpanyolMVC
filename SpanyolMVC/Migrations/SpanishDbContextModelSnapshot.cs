@@ -52,6 +52,9 @@ namespace SpanyolMVC.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Difficulty")
+                        .HasColumnType("int");
+
                     b.Property<string>("English")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

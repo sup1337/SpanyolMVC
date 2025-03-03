@@ -6,6 +6,8 @@ public class EditWordsRequest
 {
      public Guid Id { get; set; }
     [Required]
+     public int Difficulty { get; set; }
+    [Required]
     public string Hungarian { get; set; }
     [Required]
     public string English { get; set; }
