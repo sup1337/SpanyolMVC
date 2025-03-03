@@ -139,14 +139,17 @@ public class WordsRepository : IWordsRepository
 
     public async Task<List<Words>> GetRandomWordsAsync(int count)
     {
-        var totalWords = await _spanishDbContext.Words.CountAsync();
-        if (count > totalWords)
-        {
-            count = totalWords;
-        }
+        var randomIds = await _spanishDbContext.Words
+            .Select(w => w.Id)
+            .OrderBy(x => EF.Functions.Random()) // SQL szintű véletlenszerűsítés
+            .Take(count)
+            .ToListAsync();
 
-        return await _spanishDbContext.Words.OrderBy(words => Guid.NewGuid()).Take(count).ToListAsync();
+        return await _spanishDbContext.Words
+            .Where(w => randomIds.Contains(w.Id))
+            .ToListAsync();
     }
+
 
     public async Task BulkInsertFromExcelAsync(string filePath)
     {
