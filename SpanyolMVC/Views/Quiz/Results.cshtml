@@ -1,8 +1,8 @@
-@model System.Collections.Generic.List<SpanyolMVC.Models.ViewModels.QuizResultViewModel>
+@model List<SpanyolMVC.Models.ViewModels.QuizResultViewModel>
+
 @{
     ViewData["Title"] = "Quiz Results";
 }
-
 
 <div class="container mt-5">
     <h2 class="text-center mb-4">Quiz Results</h2>
@@ -24,11 +24,9 @@
                 <td>@result.Hungarian</td>
                 <td>@result.English</td>
                 <td>@result.UserAnswer</td>
-                <td>@result.Infinitive</td>
+                <td>@result.CorrectAnswer</td> <!-- Display the correct answer -->
                 <td class="text-center">
-                    @(result.IsCorrect ?
-                        "✔️" :
-                        "❌")
+                    @(result.IsCorrect ? "✔️" : "❌")
                 </td>
             </tr>
         }

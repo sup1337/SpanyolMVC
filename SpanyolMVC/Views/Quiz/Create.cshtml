@@ -15,8 +15,48 @@
             <form asp-controller="Quiz" asp-action="Index" method="get">
                 <div class="mb-3">
                     <label for="numberOfQuestions" class="form-label">Number of Questions:</label>
-                    <input type="number" name="numberOfQuestions" id="numberOfQuestions" 
-                           class="form-control" min="1" value="@Model" required />
+                    <input type="number" name="numberOfQuestions" id="numberOfQuestions"
+                           class="form-control" min="1" value="2" required/>
+                </div>
+                <div class="mb-3">
+                    <label for="person" class="form-label">Person:</label>
+                    <select name="person" id="person" class="form-control">
+                        <option value="1">I</option>
+                        <option value="2">You</option>
+                        <option value="3">He/She/It</option>
+                        <option value="4">We</option>
+                        <option value="5">You (plural)</option>
+                        <option value="6">They</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="tense" class="form-label">Tense:</label>
+                    <select name="tense" id="tense" class="form-control">
+                        <option value="Present">Present</option>
+                        <option value="Past">Past</option>
+                        <option value="Future">Future</option>
+                        <option value="Conditional">Conditional</option>
+                        <option value="SubjunctivePresent">Subjunctive Present</option>
+                        <option value="SubjunctiveImperfect">Subjunctive Impefect</option>
+                        <option value="ImperativePositive">Imperative Positive</option>
+                        <option value="ImperativeNegative">Imperative Negative</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="isIrregular" class="form-label">Include Irregular Verbs:</label>
+                    <input type="checkbox" name="isIrregular" id="isIrregular" class="form-check-input"/>
+                </div>
+                <div class="mb-3">
+                    <label for="isReflexive" class="form-label">Include Reflexive Verbs:</label>
+                    <input type="checkbox" name="isReflexive" id="isReflexive" class="form-check-input"/>
+                </div>
+                <div class="mb-3">
+                    <label for="difficulty" class="form-label">Difficulty Level:</label>
+                    <select name="difficulty" id="difficulty" class="form-control">
+                        <option value="1">Easy</option>
+                        <option value="2">Medium</option>
+                        <option value="3">Hard</option>
+                    </select>
                 </div>
                 <button type="submit" class="btn btn-dark w-100">Start Quiz</button>
             </form>

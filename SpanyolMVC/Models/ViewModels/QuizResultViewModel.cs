@@ -1,3 +1,4 @@
+// Models/ViewModels/QuizResultViewModel.cs
 namespace SpanyolMVC.Models.ViewModels;
 
 public class QuizResultViewModel
@@ -7,4 +8,5 @@ public class QuizResultViewModel
     public string UserAnswer { get; set; }
     public string Infinitive { get; set; }
     public bool IsCorrect { get; set; }
+    public string CorrectAnswer { get; set; }
 }

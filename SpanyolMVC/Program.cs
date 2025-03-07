@@ -26,6 +26,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddEntityFrameworkStores<AuthDbContext>();
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddScoped<IQuizRepository, QuizRepository>();
 builder.Services.AddScoped<IAdminRepository, AdminRepository>();
 builder.Services.AddScoped<IWordsRepository, WordsRepository>();
 builder.Services.AddTransient<IEmailSender, EmailSender>();

@@ -1,72 +1,89 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SpanyolMVC.Models.Domain;
 using SpanyolMVC.Models.ViewModels;
 using SpanyolMVC.Repositories;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace SpanyolMVC.Controllers;
-
-[Authorize(Roles = "User")]
-public class QuizController : Controller
+namespace SpanyolMVC.Controllers
 {
-    private readonly IWordsRepository _wordsRepository;
-    
-    public QuizController(IWordsRepository wordsRepository)
+    [Authorize(Roles = "User")]
+    public class QuizController : Controller
     {
-        _wordsRepository = wordsRepository;
-    }
-    
-    // Quiz inditasa 
-    [HttpGet]
-    public async Task<IActionResult> Index(int numberOfQuestions)
-    {
-        // Ha a numberOfQuestions <= 0, akkor alapértelmezetten 2 legyen
-        if (numberOfQuestions <= 0)
+        private readonly IQuizRepository _quizRepository;
+
+        public QuizController(IQuizRepository quizRepository)
         {
-            numberOfQuestions = 2;
+            _quizRepository = quizRepository;
         }
 
-        var words = await _wordsRepository.GetRandomWordsAsync(numberOfQuestions);
-    
-        // Ha nincs elég szó, ki kell jelezni valamit
-        if (words.Count < numberOfQuestions)
+        [HttpGet]
+        public IActionResult Create()
         {
-            TempData["ErrorMessage"] = "Not enough words available for the quiz.";
-            return RedirectToAction("Create");
-        }
-        
-        var quizQuestions = words.Select(w => new QuizViewModel
-        {
-            Id = w.Id,
-            Hungarian = w.Hungarian,
-            English = w.English,
-            Infinitive = w.Infinitive
-        }).ToList();
+            if (TempData["ErrorMessage"] != null)
+            {
+                ViewBag.ErrorMessage = TempData["ErrorMessage"] as string;
+            }
 
-        return View(quizQuestions);
-    }
-   
-    public IActionResult Evaluate(List<Quiz> quizAnswers)
-    {
-        var results = quizAnswers.Select(q => new QuizResultViewModel()
-        {
-            Hungarian = q.Hungarian,
-            English = q.English,
-            UserAnswer = q.UserAnswer,
-            Infinitive = q.Infinitive,
-            IsCorrect = q.IsCorrect
-        }).ToList();
-        
-        return View("Results" ,results);
-    }
-    
-    [HttpGet]
-    public IActionResult Create()
-    {
-        if (TempData["ErrorMessage"] != null)
-        {
-            ViewBag.ErrorMessage = TempData["ErrorMessage"];
+            return View();
         }
-        return View();
+
+        [HttpGet]
+        public async Task<IActionResult> Index(int numberOfQuestions, string person, string tense, bool isIrregular,
+            bool isReflexive, int difficulty)
+        {
+            if (numberOfQuestions <= 0) numberOfQuestions = 2;
+
+            var quizQuestions = await _quizRepository.GenerateQuizQuestionsAsync(
+                numberOfQuestions, person, tense, isIrregular, isReflexive, difficulty
+            );
+
+            if (quizQuestions.Count < numberOfQuestions)
+            {
+                TempData["ErrorMessage"] = "Not enough words available for the quiz.";
+                return RedirectToAction("Create");
+            }
+
+            var quizViewModels = quizQuestions.Select(q => new QuizViewModel
+            {
+                Id = q.Id,
+                Infinitive = q.Infinitive,
+                Person = q.Person,
+                Tense = q.Tense,
+                CorrectAnswer = q.CorrectAnswer,
+                Options = q.Options,
+                IsReflexive = q.IsReflexive,
+                IsIrregular = q.IsIrregular
+            }).ToList();
+
+            return View("Index", quizViewModels);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Evaluate(List<QuizViewModel> quizAnswers)
+        {
+            var results = new List<QuizResultViewModel>();
+
+            foreach (var answer in quizAnswers)
+            {
+                var word = await _quizRepository.GetWordByIdAsync(answer.Id);
+                var isCorrect =
+                    await _quizRepository.EvaluateAnswerAsync(answer.Id, answer.UserAnswer, answer.Person,
+                        answer.Tense);
+                results.Add(new QuizResultViewModel
+                {
+                    Hungarian = word.Hungarian,
+                    English = word.English,
+                    UserAnswer = answer.UserAnswer,
+                    Infinitive = answer.Infinitive,
+                    CorrectAnswer = answer.CorrectAnswer,
+                    IsCorrect = isCorrect
+                });
+            }
+
+            return View("Results", results);
+        }
     }
 }
