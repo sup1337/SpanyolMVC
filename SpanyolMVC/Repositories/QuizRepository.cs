@@ -18,27 +18,36 @@ public class QuizRepository : IQuizRepository
     {
         var query = _spanishDbContext.Words.AsQueryable();
 
-        // Szabálytalan/szabályos szűrés
-        query = isIrregular 
-            ? query.Where(w => w.Group >= 100) 
-            : query.Where(w => w.Group < 100);
+        // Filter by irregular/regular
+        if (isIrregular)
+        {
+            query = query.Where(w => w.Group >= 100);
+        }
+        
 
-        // Reflexív igék szűrése
+        // Filter by reflexive verbs
         if (isReflexive)
         {
             query = query.Where(w => w.Infinitive.EndsWith("se"));
         }
 
-        // Nehézségi szint szűrése
+        // Filter by difficulty level
         query = query.Where(w => w.Difficulty == difficulty);
 
-        // Véletlenszerű sorrend és lapozás
+        // Ensure we have enough words to generate the quiz
+        var totalWords = await query.CountAsync();
+        if (totalWords < numberOfQuestions)
+        {
+            return new List<Quiz>();
+        }
+
+        // Random order and pagination
         var words = await query
-            .OrderBy(x => Guid.NewGuid()) // Véletlenszerű sorrend SQL Serverrel kompatibilisan
+            .OrderBy(x => Guid.NewGuid()) // Random order compatible with SQL Server
             .Take(numberOfQuestions)
             .ToListAsync();
 
-        // Quiz kérdések generálása
+        // Generate quiz questions
         var quizQuestions = words.Select(w => new Quiz
         {
             Id = w.Id,
