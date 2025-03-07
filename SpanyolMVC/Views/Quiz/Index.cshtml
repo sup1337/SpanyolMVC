@@ -20,6 +20,7 @@
                     <input type="hidden" name="quizAnswers[@i].Id" value="@question.Id" />
                     <input type="hidden" name="quizAnswers[@i].Person" value="@question.Person" />
                     <input type="hidden" name="quizAnswers[@i].Tense" value="@question.Tense" />
+                    <input type="hidden" name="quizAnswers[@i].CorrectAnswer" value="@question.CorrectAnswer" />
                     <div class="options">
                         @foreach (var option in question.Options)
                         {
