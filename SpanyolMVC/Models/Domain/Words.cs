@@ -6,6 +6,8 @@ public class Words
 
     public int Difficulty { get; set; }
     
+    public int Group { get; set; }
+    
     public string Hungarian { get; set; } // Magyar szó
     
     public string English { get; set; }   // Angol szó
@@ -16,7 +18,7 @@ public class Words
     
     public string German { get; set; }
     
-    public string Infinitive { get; set; } // Helyes spanyol fordítás
+    public string Infinitive { get; set; } 
     
     public string Gerund { get; set; }
     
@@ -125,4 +127,5 @@ public class Words
     public string ImperativeNegative5 { get; set; }
     
     public string ImperativeNegative6 { get; set; }
+    
 }

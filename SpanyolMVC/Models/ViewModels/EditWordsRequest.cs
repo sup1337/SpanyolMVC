@@ -8,6 +8,8 @@ public class EditWordsRequest
     [Required]
      public int Difficulty { get; set; }
     [Required]
+    public int Group { get; set; }
+    [Required]
     public string Hungarian { get; set; }
     [Required]
     public string English { get; set; }
