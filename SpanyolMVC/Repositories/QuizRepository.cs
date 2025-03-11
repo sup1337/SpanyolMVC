@@ -18,27 +18,23 @@ public class QuizRepository : IQuizRepository
     {
         var query = _spanishDbContext.Words.AsQueryable();
 
-        // 1. Reflexív szűrés pontosítása (kis-nagybetű érzéketlen)
         if (isReflexive)
         {
             query = query.Where(w => EF.Functions.Like(w.Infinitive, "%se"));
         }
 
-        // 2. Szabálytalan/szabályos szűrés
         query = isIrregular 
             ? query.Where(w => w.Group >= 100) 
             : query.Where(w => w.Group < 100);
 
-        // 3. Nehézségi szint szűrése
         query = query.Where(w => w.Difficulty == difficulty);
 
-        // 4. Csak annyi kérdést generálunk, amennyi elérhető 
-        var words = await query
-            .Take(numberOfQuestions) 
-            .ToListAsync();
+        var words = await query.ToListAsync();
 
-        // 5. Kérdések generálása
-        var quizQuestions = words.Select(w => new Quiz
+        var random = new Random();
+        var randomWords = words.OrderBy(x => random.Next()).Take(numberOfQuestions).ToList();
+
+        var quizQuestions = randomWords.Select(w => new Quiz
         {
             Id = w.Id,
             Infinitive = w.Infinitive,
