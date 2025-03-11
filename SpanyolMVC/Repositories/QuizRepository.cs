@@ -18,36 +18,26 @@ public class QuizRepository : IQuizRepository
     {
         var query = _spanishDbContext.Words.AsQueryable();
 
-        // Filter by irregular/regular
-        if (isIrregular)
-        {
-            query = query.Where(w => w.Group >= 100);
-        }
-        
-
-        // Filter by reflexive verbs
+        // 1. Reflexív szűrés pontosítása (kis-nagybetű érzéketlen)
         if (isReflexive)
         {
-            query = query.Where(w => w.Infinitive.EndsWith("se"));
+            query = query.Where(w => EF.Functions.Like(w.Infinitive, "%se"));
         }
 
-        // Filter by difficulty level
+        // 2. Szabálytalan/szabályos szűrés
+        query = isIrregular 
+            ? query.Where(w => w.Group >= 100) 
+            : query.Where(w => w.Group < 100);
+
+        // 3. Nehézségi szint szűrése
         query = query.Where(w => w.Difficulty == difficulty);
 
-        // Ensure we have enough words to generate the quiz
-        var totalWords = await query.CountAsync();
-        if (totalWords < numberOfQuestions)
-        {
-            return new List<Quiz>();
-        }
-
-        // Random order and pagination
+        // 4. Csak annyi kérdést generálunk, amennyi elérhető 
         var words = await query
-            .OrderBy(x => Guid.NewGuid()) // Random order compatible with SQL Server
-            .Take(numberOfQuestions)
+            .Take(numberOfQuestions) 
             .ToListAsync();
 
-        // Generate quiz questions
+        // 5. Kérdések generálása
         var quizQuestions = words.Select(w => new Quiz
         {
             Id = w.Id,
@@ -56,7 +46,7 @@ public class QuizRepository : IQuizRepository
             Tense = tense,
             CorrectAnswer = GetConjugation(w, person, tense),
             Options = GetOptions(w, person, tense),
-            IsReflexive = w.Infinitive.EndsWith("se"),
+            IsReflexive = w.Infinitive.EndsWith("se", StringComparison.OrdinalIgnoreCase),
             IsIrregular = w.Group >= 100
         }).ToList();
 
