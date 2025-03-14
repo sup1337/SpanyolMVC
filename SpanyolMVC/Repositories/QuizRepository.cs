@@ -14,7 +14,8 @@ public class QuizRepository : IQuizRepository
         _spanishDbContext = spanishDbContext;
     }
 
-    public async Task<List<Quiz>> GenerateQuizQuestionsAsync(int numberOfQuestions, string person, string tense, bool isIrregular, bool isReflexive, int difficulty)
+    public async Task<List<Quiz>> GenerateQuizQuestionsAsync(int numberOfQuestions, string person, string tense,
+        bool isIrregular, bool isReflexive, int difficulty)
     {
         var query = _spanishDbContext.Words.AsQueryable();
 
@@ -23,31 +24,72 @@ public class QuizRepository : IQuizRepository
             query = query.Where(w => EF.Functions.Like(w.Infinitive, "%se"));
         }
 
-        query = isIrregular 
-            ? query.Where(w => w.Group >= 100) 
+        query = isIrregular
+            ? query.Where(w => w.Group >= 100)
             : query.Where(w => w.Group < 100);
 
         query = query.Where(w => w.Difficulty == difficulty);
 
         var words = await query.ToListAsync();
-
         var random = new Random();
         var randomWords = words.OrderBy(x => random.Next()).Take(numberOfQuestions).ToList();
 
-        var quizQuestions = randomWords.Select(w => new Quiz
+        var quizQuestions = new List<Quiz>();
+        var tensePersons = GetValidPersonsForTense(tense); // Új segédfüggvény
+
+        foreach (var word in randomWords)
         {
-            Id = w.Id,
-            Infinitive = w.Infinitive,
-            Person = person,
-            Tense = tense,
-            CorrectAnswer = GetConjugation(w, person, tense),
-            Options = GetOptions(w, person, tense),
-            IsReflexive = w.Infinitive.EndsWith("se", StringComparison.OrdinalIgnoreCase),
-            IsIrregular = w.Group >= 100
-        }).ToList();
+            var selectedPerson = person == "Random"
+                ? GetRandomValidPerson(tensePersons, random)
+                : ValidatePerson(person, tensePersons);
+
+            var correctAnswer = GetConjugation(word, selectedPerson, tense);
+
+            // Biztosítjuk, hogy létező konjugációt választunk
+            while (string.IsNullOrEmpty(correctAnswer))
+            {
+                selectedPerson = GetRandomValidPerson(tensePersons, random);
+                correctAnswer = GetConjugation(word, selectedPerson, tense);
+            }
+
+            quizQuestions.Add(new Quiz
+            {
+                Id = word.Id,
+                Infinitive = word.Infinitive,
+                Person = selectedPerson,
+                Tense = tense,
+                CorrectAnswer = correctAnswer,
+                Options = GetOptions(word, selectedPerson, tense),
+                IsReflexive = word.Infinitive.EndsWith("se", StringComparison.OrdinalIgnoreCase),
+                IsIrregular = word.Group >= 100
+            });
+        }
 
         return quizQuestions;
     }
+
+    private List<string> GetValidPersonsForTense(string tense)
+    {
+        return tense switch
+        {
+            "ImperativePositive" => new List<string> { "2", "3", "4", "5", "6" },
+            "ImperativeNegative" => new List<string> { "2", "3", "4", "5", "6" },
+            _ => new List<string> { "1", "2", "3", "4", "5", "6" }
+        };
+    }
+
+    private string GetRandomValidPerson(List<string> validPersons, Random random)
+    {
+        return validPersons[random.Next(validPersons.Count)];
+    }
+
+    private string ValidatePerson(string requestedPerson, List<string> validPersons)
+    {
+        return validPersons.Contains(requestedPerson)
+            ? requestedPerson
+            : validPersons.First(); // Visszatérés első érvényes személlyel
+    }
+
     private string GetConjugation(Words word, string person, string tense)
     {
         return tense switch
@@ -139,29 +181,23 @@ public class QuizRepository : IQuizRepository
         var correctAnswer = GetConjugation(word, person, tense);
         var options = new List<string> { correctAnswer };
 
-        // Corrected persons array to use numeric values
-        var persons = new[] { "1", "2", "3", "4", "5", "6" };
-        var tenses = new[]
-        {
-            "Present", "Past", "Future", "Conditional", "SubjunctivePresent",
-            "SubjunctiveImperfect", "ImperativePositive", "ImperativeNegative"
-        };
-
+        var validPersons = GetValidPersonsForTense(tense);
         var random = new Random();
+
         while (options.Count < 4)
         {
-            var randomPerson = persons[random.Next(persons.Length)];
-            var randomTense = tenses[random.Next(tenses.Length)];
-            var randomOption = GetConjugation(word, randomPerson, randomTense);
+            var randomPerson = validPersons[random.Next(validPersons.Count)];
+            var randomOption = GetConjugation(word, randomPerson, tense);
 
-            if (!options.Contains(randomOption) && !string.IsNullOrEmpty(randomOption))
+            if (!string.IsNullOrEmpty(randomOption) && !options.Contains(randomOption))
             {
                 options.Add(randomOption);
             }
         }
 
-        return options.OrderBy(x => Guid.NewGuid()).ToList();
+        return options.OrderBy(x => random.Next()).ToList();
     }
+
     public async Task<bool> EvaluateAnswerAsync(Guid wordId, string userAnswer, string person, string tense)
     {
         var word = await _spanishDbContext.Words.FindAsync(wordId);
