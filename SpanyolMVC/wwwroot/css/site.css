@@ -31,3 +31,21 @@ body {
 }
 
 /*quiz*/
+.option-container .form-check-label {
+  cursor: pointer;
+  transition: all 0.2s;
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+.option-container .correct-answer {
+  background-color: #28a745 !important;
+  border-color: #28a745 !important;
+  color: white !important;
+}
+
+.option-container .wrong-answer {
+  background-color: #dc3545 !important;
+  border-color: #dc3545 !important;
+  color: white !important;
+}

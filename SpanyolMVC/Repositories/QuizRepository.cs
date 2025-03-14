@@ -42,17 +42,6 @@ public class QuizRepository : IQuizRepository
             var selectedPerson = person == "Random"
                 ? GetRandomValidPerson(tensePersons, random)
                 : ValidatePerson(person, tensePersons);
-            
-            var spanishPerson = selectedPerson switch
-            {
-                "1" => "Yo",
-                "2" => "Tú",
-                "3" => "Él/Ella/Usted",
-                "4" => "Nosotros",
-                "5" => "Vosotros",
-                "6" => "Ellos/Ellas/Ustedes",
-                _ => "Desconocido"
-            };
 
             var correctAnswer = GetConjugation(word, selectedPerson, tense);
 
@@ -67,7 +56,7 @@ public class QuizRepository : IQuizRepository
             {
                 Id = word.Id,
                 Infinitive = word.Infinitive,
-                Person = spanishPerson,
+                Person = selectedPerson,
                 Tense = tense,
                 CorrectAnswer = correctAnswer,
                 Options = GetOptions(word, selectedPerson, tense),
