@@ -29,3 +29,21 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+
+.quiz-question {
+  transition: all 0.3s ease;
+}
+
+.card-title {
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.correct-answer-feedback {
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
