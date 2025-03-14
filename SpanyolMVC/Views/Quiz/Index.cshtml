@@ -13,20 +13,54 @@
             @for (int i = 0; i < Model.Count; i++)
             {
                 var question = Model[i];
-                <div class="quiz-question" data-id="@question.Id">
-                    <h5>Infinitive: @question.Infinitive</h5>
-                    <p>Person: @question.Person</p>
-                    <p>Tense: @question.Tense</p>
-                    <input type="hidden" name="quizAnswers[@i].Id" value="@question.Id" />
-                    <input type="hidden" name="quizAnswers[@i].Person" value="@question.Person" />
-                    <input type="hidden" name="quizAnswers[@i].Tense" value="@question.Tense" />
-                    <input type="hidden" name="quizAnswers[@i].CorrectAnswer" value="@question.CorrectAnswer" />
-                    <div class="options">
-                        @foreach (var option in question.Options)
+                <div class="quiz-question card mb-3 @(i == 0 ? "active" : "d-none")" data-id="@question.Id"
+                     data-index="@i">
+                    <div class="card-body">
+                        <h5 class="card-title">Infinitive: @question.Infinitive</h5>
+                        <p class="card-text">Person: @(question.Person switch
+                                                         {
+                                                             "1" => "yo",
+                                                             "2" => "tú",
+                                                             "3" => "él/ella/usted",
+                                                             "4" => "nosotros/nosotras",
+                                                             "5" => "vosotros/vosotras",
+                                                             "6" => "ellos/ellas/ustedes",
+                                                             _ => question.Person
+                                                         })</p>
+                        <p class="card-text">Tense: @question.Tense</p>
+
+                        <input type="hidden" name="quizAnswers[@i].Id" value="@question.Id"/>
+                        <input type="hidden" name="quizAnswers[@i].Person" value="@question.Person"/>
+                        <input type="hidden" name="quizAnswers[@i].Tense" value="@question.Tense"/>
+                        <input type="hidden" name="quizAnswers[@i].CorrectAnswer" value="@question.CorrectAnswer"/>
+
+                        <div class="options row g-3">
+                            @foreach (var option in question.Options)
+                            {
+                                <div class="col-12 option-container">
+                                    <div class="form-check h-100">
+                                        <input class="form-check-input visually-hidden"
+                                               type="radio"
+                                               name="quizAnswers[@i].UserAnswer"
+                                               value="@option"
+                                               id="option-@i-@option"
+                                               required>
+                                        <label
+                                            class="form-check-label btn btn-outline-dark w-100 h-100 d-flex align-items-center"
+                                            for="option-@i-@option"
+                                            data-correct="@(option == question.CorrectAnswer ? "true" : "false")">
+                                            @option
+                                        </label>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
+                        @if (!string.IsNullOrEmpty(question.CorrectAnswer))
                         {
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="quizAnswers[@i].UserAnswer" value="@option" required>
-                                <label class="form-check-label">@option</label>
+                            <div class="correct-answer-feedback mt-3 d-none">
+                                <p class="text-success mb-0">Correct answer: <strong>@question.CorrectAnswer</strong>
+                                </p>
                             </div>
                         }
                     </div>
@@ -34,8 +68,107 @@
             }
         </div>
 
-        <div class="text-center mt-4">
-            <button type="submit" class="btn btn-dark">Submit</button>
+        <div class="navigation-controls mt-4 d-flex justify-content-between">
+            <button type="button" class="btn btn-secondary" id="prev-btn" disabled>Previous</button>
+            <button type="button" class="btn btn-dark" id="next-btn">Next Question</button>
         </div>
     </form>
 </div>
+
+
+
+<style>
+    .option-container .form-check-label {
+        cursor: pointer;
+        transition: all 0.2s;
+        padding: 1rem;
+        border-radius: 0.5rem;
+    }
+
+    /* TÖRÖLD EZT A RÉSZT
+    .option-container input:checked + label {
+        background-color: #6c757d;
+        color: white;
+    }
+    */
+
+    .option-container .correct-answer {
+        background-color: #28a745 !important;
+        border-color: #28a745 !important;
+        color: white !important;
+    }
+
+    .option-container .wrong-answer {
+        background-color: #dc3545 !important;
+        border-color: #dc3545 !important;
+        color: white !important;
+    }
+</style>
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            let currentQuestion = 0;
+            const totalQuestions = @Model.Count;
+            
+            // Radio button változás kezelése
+            $('input[type="radio"]').on('change', function() {
+                const $question = $(this).closest('.quiz-question');
+                const selectedLabel = $(this).next('label');
+
+                // Minden visszajelzés törlése
+                $question.find('label').removeClass('correct-answer wrong-answer');
+
+                // Helyes válasz elem kikeresése
+                const correctLabel = $question.find('label[data-correct="true"]');
+
+                // !! A data() függvény BOOLEAN-t ad vissza, ne hasonlítsd stringgel !!
+                if (selectedLabel.data('correct') === true) { // <-- Itt a javítás
+                    selectedLabel.addClass('correct-answer');
+                } else {
+                    selectedLabel.addClass('wrong-answer');
+                    correctLabel.addClass('correct-answer');
+                }
+
+                $('#next-btn').prop('disabled', false);
+            });
+
+            // Next button click handler
+            $('#next-btn').click(function () {
+                if (currentQuestion < totalQuestions - 1) {
+                    // Hide current question
+                    $(`.quiz-question[data-index="${currentQuestion}"]`).addClass('d-none');
+
+                    // Show next question
+                    currentQuestion++;
+                    $(`.quiz-question[data-index="${currentQuestion}"]`).removeClass('d-none');
+
+                    // Update buttons
+                    $('#prev-btn').prop('disabled', false);
+                    if (currentQuestion === totalQuestions - 1) {
+                        $(this).text('Submit Quiz');
+                    }
+                } else {
+                    $('#quiz-form').submit();
+                }
+            });
+
+            // Previous button click handler
+            $('#prev-btn').click(function () {
+                if (currentQuestion > 0) {
+                    // Hide current question
+                    $(`.quiz-question[data-index="${currentQuestion}"]`).addClass('d-none');
+
+                    // Show previous question
+                    currentQuestion--;
+                    $(`.quiz-question[data-index="${currentQuestion}"]`).removeClass('d-none');
+
+                    // Update buttons
+                    if (currentQuestion === 0) {
+                        $(this).prop('disabled', true);
+                    }
+                    $('#next-btn').text('Next Question');
+                }
+            });
+        });
+    </script>
+}
