@@ -104,14 +104,15 @@
         color: white !important;
     }
 </style>
+
 @section Scripts {
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             let currentQuestion = 0;
             const totalQuestions = @Model.Count;
-            
+
             // Radio button változás kezelése
-            $('input[type="radio"]').on('change', function() {
+            $('input[type="radio"]').on('change', function () {
                 const $question = $(this).closest('.quiz-question');
                 const selectedLabel = $(this).next('label');
 

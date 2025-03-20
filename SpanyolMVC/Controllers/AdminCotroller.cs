@@ -44,11 +44,12 @@ public class AdminController : Controller
         ViewBag.PageSize = pageSize;
         ViewBag.PageNumber = pageNumber;
 
-        var users = await _adminRepository.GetAllUsersWithRolesAsync(searchQuery, sortBy, sortDirection, pageNumber, pageSize);
+        var users = await _adminRepository.GetAllUsersWithRolesAsync(searchQuery, sortBy, sortDirection, pageNumber,
+            pageSize);
 
         return View(users);
     }
-    
+
     [HttpGet]
     public async Task<IActionResult> Search(string searchTerm)
     {
@@ -95,7 +96,7 @@ public class AdminController : Controller
 
         return RedirectToAction("Index");
     }
-    
+
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Delete(Guid userId)

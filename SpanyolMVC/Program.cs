@@ -11,9 +11,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 var identityConnectionString = builder.Configuration.GetConnectionString("IdentityDbConnection") ??
-                       throw new InvalidOperationException("Connection string 'IdentityDbConnection' not found.");
+                               throw new InvalidOperationException(
+                                   "Connection string 'IdentityDbConnection' not found.");
 var connectionString = builder.Configuration.GetConnectionString("SpanishDbConnectionString") ??
                        throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+
+
 builder.Services.AddDbContext<AuthDbContext>(options =>
     options.UseSqlServer(identityConnectionString));
 builder.Services.AddDbContext<SpanishDbContext>(options =>
@@ -21,7 +24,9 @@ builder.Services.AddDbContext<SpanishDbContext>(options =>
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true) //csak megerősített felhasználók
+builder.Services
+    .AddDefaultIdentity<
+        IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true) //csak megerősített felhasználók
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<AuthDbContext>();
 builder.Services.AddControllersWithViews();

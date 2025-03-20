@@ -6,14 +6,14 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace SpanyolMVC.Data;
 
-
 public class AuthDbContext : IdentityDbContext
 {
     public AuthDbContext(DbContextOptions<AuthDbContext> options)
         : base(options)
     {
     }
-     protected override void OnModelCreating(ModelBuilder builder)
+
+    protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
 
@@ -87,6 +87,7 @@ public class AuthDbContext : IdentityDbContext
 
         builder.Entity<IdentityUserRole<string>>().HasData(adminRoles);
     }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.ConfigureWarnings(warnings => warnings.Ignore(RelationalEventId.PendingModelChangesWarning));

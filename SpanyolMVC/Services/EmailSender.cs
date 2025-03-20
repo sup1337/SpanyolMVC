@@ -24,6 +24,7 @@ public class EmailSender : IEmailSender
         {
             throw new Exception("Null SendGridKey");
         }
+
         await Execute(Options.SendGridKey, subject, message, toEmail);
     }
 
@@ -43,7 +44,7 @@ public class EmailSender : IEmailSender
         // See https://sendgrid.com/docs/User_Guide/Settings/tracking.html
         msg.SetClickTracking(false, false);
         var response = await client.SendEmailAsync(msg);
-        _logger.LogInformation(response.IsSuccessStatusCode 
+        _logger.LogInformation(response.IsSuccessStatusCode
             ? $"Email to {toEmail} queued successfully!"
             : $"Failure Email to {toEmail}");
     }

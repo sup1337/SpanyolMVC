@@ -7,8 +7,8 @@
 <h1>Manage Roles for @Model.UserEmail</h1>
 
 <form asp-action="Manage" method="post">
-    <input type="hidden" asp-for="UserId" />
-    <input type="hidden" asp-for="UserEmail" />
+    <input type="hidden" asp-for="UserId"/>
+    <input type="hidden" asp-for="UserEmail"/>
 
     <table class="table">
         <thead>
@@ -22,12 +22,12 @@
         {
             <tr>
                 <td>
-                    <input type="hidden" asp-for="@Model.Roles[i].RoleId" />
-                    <input type="hidden" asp-for="@Model.Roles[i].RoleName" />
+                    <input type="hidden" asp-for="@Model.Roles[i].RoleId"/>
+                    <input type="hidden" asp-for="@Model.Roles[i].RoleName"/>
                     @Model.Roles[i].RoleName
                 </td>
                 <td>
-                    <input asp-for="@Model.Roles[i].Selected" />
+                    <input asp-for="@Model.Roles[i].Selected"/>
                 </td>
             </tr>
         }
