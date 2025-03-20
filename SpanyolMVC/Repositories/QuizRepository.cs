@@ -184,7 +184,7 @@ public class QuizRepository : IQuizRepository
         var validPersons = GetValidPersonsForTense(tense);
         var random = new Random();
 
-        while (options.Count < 4)
+        while (options.Count < 6)// 6 opciónál több nem kell
         {
             var randomPerson = validPersons[random.Next(validPersons.Count)];
             var randomOption = GetConjugation(word, randomPerson, tense);
