@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SpanyolMVC.Data;
@@ -215,5 +216,34 @@ public class QuizRepository : IQuizRepository
         return await _spanishDbContext.Words.FindAsync(wordId);
     }
     
+    public async Task SaveQuizResultsAsync(List<QuizResultViewModel> results, ClaimsPrincipal user)
+    {
+        // Get user ID as string
+        var userIdString = _userManager.GetUserId(user);
+    
+        // Convert to Guid (handle null/empty case)
+        if (string.IsNullOrEmpty(userIdString))
+        {
+            throw new InvalidOperationException("User ID is missing.");
+        }
+        Guid userIdGuid = Guid.Parse(userIdString);
+
+        // Map results with Guid user ID
+        var domainResults = results.Select(r => new QuizResult
+        {
+            Id = Guid.NewGuid(),
+            UserId = userIdGuid, // Now Guid type
+            AttemptedAt = DateTime.UtcNow,
+            WordId = r.WordId,
+            Infinitive = r.Infinitive,
+            Person = r.Person,
+            Tense = r.Tense,
+            CorrectAnswer = r.CorrectAnswer,
+            UserAnswer = r.UserAnswer
+        }).ToList();
+
+        await _spanishDbContext.QuizResults.AddRangeAsync(domainResults);
+        await _spanishDbContext.SaveChangesAsync();
+    }
     
 }

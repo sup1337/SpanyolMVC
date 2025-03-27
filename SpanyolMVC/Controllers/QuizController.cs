@@ -69,11 +69,13 @@ namespace SpanyolMVC.Controllers
             foreach (var answer in quizAnswers)
             {
                 var word = await _quizRepository.GetWordByIdAsync(answer.Id);
-                var isCorrect =
-                    await _quizRepository.EvaluateAnswerAsync(answer.Id, answer.UserAnswer, answer.Person,
-                        answer.Tense);
+                var isCorrect = await _quizRepository.EvaluateAnswerAsync(answer.Id, answer.UserAnswer, answer.Person, answer.Tense);
+            
                 results.Add(new QuizResultViewModel
                 {
+                    WordId = answer.Id,
+                    Person = answer.Person,
+                    Tense = answer.Tense,
                     Hungarian = word.Hungarian,
                     English = word.English,
                     UserAnswer = answer.UserAnswer,
@@ -82,6 +84,9 @@ namespace SpanyolMVC.Controllers
                     IsCorrect = isCorrect
                 });
             }
+
+            // A repository kezeli a felhasználó ID lekérését
+            await _quizRepository.SaveQuizResultsAsync(results, HttpContext.User);
 
             return View("Results", results);
         }

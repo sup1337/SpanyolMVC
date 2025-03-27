@@ -33,6 +33,7 @@
                         <input type="hidden" name="quizAnswers[@i].Person" value="@question.Person"/>
                         <input type="hidden" name="quizAnswers[@i].Tense" value="@question.Tense"/>
                         <input type="hidden" name="quizAnswers[@i].CorrectAnswer" value="@question.CorrectAnswer"/>
+                        <input type="hidden" name="quizAnswers[@i].Infinitive" value="@question.Infinitive" />
 
                         <div class="options row g-3">
                             @foreach (var option in question.Options)
@@ -85,12 +86,7 @@
         border-radius: 0.5rem;
     }
 
-    /* TÖRÖLD EZT A RÉSZT
-    .option-container input:checked + label {
-        background-color: #6c757d;
-        color: white;
-    }
-    */
+  
 
     .option-container .correct-answer {
         background-color: #28a745 !important;
