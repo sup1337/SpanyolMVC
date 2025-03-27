@@ -18,5 +18,7 @@ public class QuizResult
     
     public bool IsReflexive { get; set; }
     
+    public Words Word { get; set; } //  Ez a kulcs
+    
   
 }

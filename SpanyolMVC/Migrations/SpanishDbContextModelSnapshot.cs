@@ -65,6 +65,8 @@ namespace SpanyolMVC.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("WordId");
+
                     b.ToTable("QuizResults");
                 });
 
@@ -323,6 +325,17 @@ namespace SpanyolMVC.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Words");
+                });
+
+            modelBuilder.Entity("SpanyolMVC.Models.Domain.QuizResult", b =>
+                {
+                    b.HasOne("SpanyolMVC.Models.Domain.Words", "Word")
+                        .WithMany()
+                        .HasForeignKey("WordId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Word");
                 });
 #pragma warning restore 612, 618
         }
