@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SpanyolMVC.Data;
 using SpanyolMVC.Models.Domain;
@@ -8,10 +9,12 @@ namespace SpanyolMVC.Repositories;
 public class QuizRepository : IQuizRepository
 {
     private readonly SpanishDbContext _spanishDbContext;
+    private readonly UserManager<IdentityUser> _userManager;
 
-    public QuizRepository(SpanishDbContext spanishDbContext)
+    public QuizRepository(SpanishDbContext spanishDbContext, UserManager<IdentityUser> userManager)
     {
         _spanishDbContext = spanishDbContext;
+        _userManager = userManager;
     }
 
     public async Task<List<Quiz>> GenerateQuizQuestionsAsync(int numberOfQuestions, string person, string tense,
@@ -211,4 +214,6 @@ public class QuizRepository : IQuizRepository
     {
         return await _spanishDbContext.Words.FindAsync(wordId);
     }
+    
+    
 }

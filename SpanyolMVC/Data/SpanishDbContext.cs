@@ -10,4 +10,12 @@ public class SpanishDbContext : DbContext
     }
 
     public DbSet<Words> Words { get; set; }
+    public DbSet<QuizResult> QuizResults { get; set; }
+    
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<QuizResult>().HasKey(q => q.Id);
+    }
 }

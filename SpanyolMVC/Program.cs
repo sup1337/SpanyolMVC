@@ -13,8 +13,9 @@ var builder = WebApplication.CreateBuilder(args);
 var identityConnectionString = builder.Configuration.GetConnectionString("IdentityDbConnection") ??
                                throw new InvalidOperationException(
                                    "Connection string 'IdentityDbConnection' not found.");
+
 var connectionString = builder.Configuration.GetConnectionString("SpanishDbConnectionString") ??
-                       throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+                       throw new InvalidOperationException("Connection string 'SpanishDbConnectionString' not found.");
 
 
 builder.Services.AddDbContext<AuthDbContext>(options =>
