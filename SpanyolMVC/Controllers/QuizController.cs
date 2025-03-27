@@ -81,7 +81,9 @@ namespace SpanyolMVC.Controllers
                     UserAnswer = answer.UserAnswer,
                     Infinitive = answer.Infinitive,
                     CorrectAnswer = answer.CorrectAnswer,
-                    IsCorrect = isCorrect
+                    IsCorrect = isCorrect,
+                    IsIrregular = answer.IsIrregular,
+                    IsReflexive = answer.IsReflexive
                 });
             }
 

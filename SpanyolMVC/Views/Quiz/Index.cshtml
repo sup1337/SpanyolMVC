@@ -1,4 +1,3 @@
-@using SpanyolMVC.Models.ViewModels
 @model List<QuizViewModel>
 
 @{
@@ -34,6 +33,8 @@
                         <input type="hidden" name="quizAnswers[@i].Tense" value="@question.Tense"/>
                         <input type="hidden" name="quizAnswers[@i].CorrectAnswer" value="@question.CorrectAnswer"/>
                         <input type="hidden" name="quizAnswers[@i].Infinitive" value="@question.Infinitive" />
+                        <input type="hidden" name="quizAnswers[@i].IsIrregular" value="@question.IsIrregular.ToString().ToLower()" />
+                        <input type="hidden" name="quizAnswers[@i].IsReflexive" value="@question.IsReflexive.ToString().ToLower()" />
 
                         <div class="options row g-3">
                             @foreach (var option in question.Options)
@@ -85,9 +86,6 @@
         padding: 1rem;
         border-radius: 0.5rem;
     }
-
-  
-
     .option-container .correct-answer {
         background-color: #28a745 !important;
         border-color: #28a745 !important;

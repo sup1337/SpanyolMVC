@@ -39,6 +39,12 @@ namespace SpanyolMVC.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsIrregular")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsReflexive")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Person")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

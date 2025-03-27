@@ -16,6 +16,7 @@ public class SpanishDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.Entity<QuizResult>().HasKey(q => q.Id);
+        modelBuilder.Entity<QuizResult>()
+            .HasKey(q => q.Id);
     }
 }

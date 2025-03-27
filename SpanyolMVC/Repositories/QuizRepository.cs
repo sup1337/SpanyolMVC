@@ -232,14 +232,17 @@ public class QuizRepository : IQuizRepository
         var domainResults = results.Select(r => new QuizResult
         {
             Id = Guid.NewGuid(),
-            UserId = userIdGuid, // Now Guid type
+            UserId = userIdGuid, 
             AttemptedAt = DateTime.UtcNow,
             WordId = r.WordId,
             Infinitive = r.Infinitive,
             Person = r.Person,
             Tense = r.Tense,
             CorrectAnswer = r.CorrectAnswer,
-            UserAnswer = r.UserAnswer
+            UserAnswer = r.UserAnswer,
+            IsIrregular = r.IsIrregular,
+            IsReflexive = r.IsReflexive
+            
         }).ToList();
 
         await _spanishDbContext.QuizResults.AddRangeAsync(domainResults);

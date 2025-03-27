@@ -4,9 +4,7 @@ namespace SpanyolMVC.Models.ViewModels;
 public class QuizResultViewModel
 {
     public Guid WordId { get; set; }
-    
     public string Person { get; set; }
-    
     public string Tense { get; set; }
     public string Hungarian { get; set; }
     public string English { get; set; }
@@ -14,4 +12,6 @@ public class QuizResultViewModel
     public string Infinitive { get; set; }
     public bool IsCorrect { get; set; }
     public string CorrectAnswer { get; set; }
+    public bool IsIrregular { get; set; }
+    public bool IsReflexive { get; set; }
 }

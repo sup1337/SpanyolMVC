@@ -13,12 +13,10 @@ public class QuizResult
     public string Tense { get; set; }
     public string CorrectAnswer { get; set; }
     public string UserAnswer { get; set; }
-        
-    // // Six answer options
-    // public string Option1 { get; set; }
-    // public string Option2 { get; set; }
-    // public string Option3 { get; set; }
-    // public string Option4 { get; set; }
-    // public string Option5 { get; set; }
-    // public string Option6 { get; set; }
+    
+    public bool IsIrregular { get; set; }
+    
+    public bool IsReflexive { get; set; }
+    
+  
 }
