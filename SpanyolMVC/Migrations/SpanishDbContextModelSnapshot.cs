@@ -35,10 +35,6 @@ namespace SpanyolMVC.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Infinitive")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("IsIrregular")
                         .HasColumnType("bit");
 

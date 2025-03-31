@@ -8,7 +8,7 @@ public class QuizResult
         
     // Question details
     public Guid WordId { get; set; }
-    public string Infinitive { get; set; }
+    // public string Infinitive { get; set; } bloat
     public string Person { get; set; }
     public string Tense { get; set; }
     public string CorrectAnswer { get; set; }

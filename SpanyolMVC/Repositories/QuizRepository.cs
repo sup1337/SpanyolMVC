@@ -235,7 +235,6 @@ public class QuizRepository : IQuizRepository
             UserId = userIdGuid, 
             AttemptedAt = DateTime.UtcNow,
             WordId = r.WordId,
-            Infinitive = r.Infinitive,
             Person = r.Person,
             Tense = r.Tense,
             CorrectAnswer = r.CorrectAnswer,
