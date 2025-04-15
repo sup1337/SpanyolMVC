@@ -32,6 +32,7 @@ builder.Services
     .AddEntityFrameworkStores<AuthDbContext>();
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddScoped<IEvaluationRepository, EvaluationRepository>();
 builder.Services.AddScoped<IQuizRepository, QuizRepository>();
 builder.Services.AddScoped<IAdminRepository, AdminRepository>();
 builder.Services.AddScoped<IWordsRepository, WordsRepository>();

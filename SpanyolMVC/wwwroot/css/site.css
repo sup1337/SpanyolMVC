@@ -49,3 +49,46 @@ body {
   border-color: #dc3545 !important;
   color: white !important;
 }
+
+.chart-container {
+  position: relative;
+  height: 400px;
+  margin-bottom: 2rem;
+  background: transparent; /* Ensure transparency */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+:root {
+  --primary-color: #4e73df;
+  --success-color: #1cc88a;
+  --info-color: #36b9cc;
+}
+
+.card {
+  border-radius: 0.5rem;
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.chart-container {
+  position: relative;
+  margin: auto;
+  min-height: 200px;
+}
+
+.alert {
+  border-radius: 0.5rem;
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
+.card-header h6 {
+  font-size: 0.85rem;
+}
+.small {
+  font-size: 0.8rem !important;
+}

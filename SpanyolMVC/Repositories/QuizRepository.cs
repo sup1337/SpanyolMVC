@@ -36,7 +36,7 @@ public class QuizRepository : IQuizRepository
 
         var words = await query.ToListAsync();
         var random = new Random();
-        var randomWords = words.OrderBy(x => random.Next()).Take(numberOfQuestions).ToList();
+        var randomWords = words.OrderBy(x => random.Next()).Take(numberOfQuestions * 2).ToList();
 
         var quizQuestions = new List<Quiz>();
         var tensePersons = GetValidPersonsForTense(tense); // Új segédfüggvény
@@ -184,11 +184,11 @@ public class QuizRepository : IQuizRepository
     {
         var correctAnswer = GetConjugation(word, person, tense);
         var options = new List<string> { correctAnswer };
-
         var validPersons = GetValidPersonsForTense(tense);
         var random = new Random();
+        int maxAttempts = 20; // Prevent infinite loops
 
-        while (options.Count < 6)// 6 opciónál több nem kell
+        while (options.Count < 4 && maxAttempts-- > 0)
         {
             var randomPerson = validPersons[random.Next(validPersons.Count)];
             var randomOption = GetConjugation(word, randomPerson, tense);
@@ -198,6 +198,12 @@ public class QuizRepository : IQuizRepository
                 options.Add(randomOption);
             }
         }
+
+        // If still not enough options, pad with empty strings or handle accordingly
+        // while (options.Count < 6)
+        // {
+        //     options.Add("N/A");
+        // }
 
         return options.OrderBy(x => random.Next()).ToList();
     }
