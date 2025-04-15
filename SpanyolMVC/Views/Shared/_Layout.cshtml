@@ -47,9 +47,20 @@
                         </li>
                     }
                     @if(signInManager.IsSignedIn(User)){
-                    <li class="nav-item">
-                        <a class="nav-link text-light" asp-area="" asp-controller="Quiz" asp-action="Create">Quiz</a>
-                    </li>
+                       
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-light text-decoration-none" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Actions
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Quiz" asp-action="Create">Quiz</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Evaluation" asp-action="Index">Evaluation</a>
+                                </li>
+                            </ul>
+                        </li>
                     }
                     <!-- Admin Dashboard gomb -->
                     @if (signInManager.IsSignedIn(User) && await userManager.IsInRoleAsync(await userManager.GetUserAsync(User), "Admin"))
@@ -78,6 +89,7 @@
 </footer>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
 @await RenderSectionAsync("Scripts", required: false)
 </body>

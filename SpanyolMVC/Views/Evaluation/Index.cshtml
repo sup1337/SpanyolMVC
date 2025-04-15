@@ -1,0 +1,124 @@
+@model SpanyolMVC.Models.ViewModels.EvaluationViewModel
+
+<div class="container py-4">
+    <div class="text-center mb-4">
+        <h2 class="h3 font-weight-bold text-dark mb-2">Performance Analysis</h2>
+        <p class="text-muted small">Detailed overview of your learning progress</p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-5 col-md-6 mb-3">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white py-2">
+                    <h6 class="mb-0 small font-weight-bold"><i class="fas fa-clock mr-1"></i>Tense Accuracy</h6>
+                </div>
+                <div class="card-body p-2">
+                    <div class="chart-container" style="height: 260px">
+                        <canvas id="tenseChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-5 col-md-6 mb-3">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white py-2">
+                    <h6 class="mb-0 small font-weight-bold"><i class="fas fa-users mr-1"></i>Person Accuracy</h6>
+                </div>
+                <div class="card-body p-2">
+                    <div class="chart-container" style="height: 260px">
+                        <canvas id="personChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* <div class="row mt-3"> *@
+    @*     <div class="col-12"> *@
+    @*         <div class="alert alert-info py-2 px-3 mb-0"> *@
+    @*             <h6 class="font-weight-bold mb-2"><i class="fas fa-bullseye mr-1"></i>Improvement Tips</h6> *@
+    @*             <ul class="list-unstyled mb-0 small" id="suggestionsList"></ul> *@
+    @*         </div> *@
+    @*     </div> *@
+    @* </div> *@
+</div>
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                url: '@Url.Action("GetChartData", "Evaluation")',
+                success: function(data) {
+                    renderCompactChart('tenseChart', data.tenseEvaluations);
+                    renderCompactChart('personChart', data.personEvaluations);
+                    populateSuggestions(data.suggestions);
+                }
+            });
+
+            function renderCompactChart(canvasId, chartData) {
+                const ctx = document.getElementById(canvasId);
+                new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: chartData.map(item => item.label),
+                        datasets: [{
+                            data: chartData.map(item => item.accuracy),
+                            backgroundColor: [
+                                '#4e73df', '#1cc88a', '#36b9cc', '#f6c23e',
+                                '#e74a3b', '#858796', '#5a5c69'
+                            ],
+                            borderWidth: 0.5
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    padding: 8,
+                                    font: {
+                                        size: 10
+                                    },
+                                    boxWidth: 12
+                                }
+                            },
+                            tooltip: {
+                                bodyFont: {
+                                    size: 10
+                                },
+                                titleFont: {
+                                    size: 10
+                                }
+                            }
+                        },
+                        layout: {
+                            padding: {
+                                top: 5,
+                                bottom: 5
+                            }
+                        },
+                        maintainAspectRatio: false
+                    }
+                });
+            }
+
+            function populateSuggestions(suggestions) {
+                const list = $('#suggestionsList');
+                list.empty();
+
+                suggestions.forEach(suggestion => {
+                    list.append(`<li class="d-flex align-items-center py-1">
+                               <i class="fas fa-angle-right text-info mr-2" style="min-width: 16px"></i>
+                               <span>${suggestion}</span>
+                             </li>`);
+                });
+
+                if (suggestions.length === 0) {
+                    list.append('<li class="text-muted">All categories show good performance!</li>');
+                }
+            }
+        });
+    </script>
+}
