@@ -9,6 +9,8 @@ public class EvaluationViewModel
     public List<Evaluation> IrregularEvaluations { get; set; }
     public List<Evaluation> ReflexiveEvaluations { get; set; }
     
+    public List<QuizSession> QuizHistory { get; set; } 
+    
     public int TotalAttempts => TenseEvaluations.Sum(e => e.TotalAttempts);
     public int TotalCorrect => TenseEvaluations.Sum(e => e.CorrectAnswers);
     

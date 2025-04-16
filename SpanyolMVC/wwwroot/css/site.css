@@ -68,6 +68,7 @@ body {
 .card {
   border-radius: 0.5rem;
   transition: transform 0.3s ease;
+  margin-bottom: 2rem; /* Add spacing between cards */
 }
 
 .card:hover {
@@ -78,6 +79,7 @@ body {
   position: relative;
   margin: auto;
   min-height: 200px;
+  margin-bottom: 2rem; /* Add spacing between charts */
 }
 
 .alert {
@@ -91,4 +93,28 @@ body {
 }
 .small {
   font-size: 0.8rem !important;
+}
+
+.clickable-row {
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.clickable-row:hover {
+  background-color: #f8f9fa;
+}
+
+.collapse-row {
+  background-color: #f8f9fa;
+}
+
+.toggle-icon {
+  transition: transform 0.2s;
+}
+
+.table-sm td {
+  font-size: 0.9rem;
+}
+.table-container {
+  margin-top: 3rem; /* Add spacing above the table */
 }

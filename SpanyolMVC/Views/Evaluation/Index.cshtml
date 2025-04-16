@@ -7,7 +7,7 @@
     </div>
 
     <div class="row justify-content-center">
-        <div class="col-lg-5 col-md-6 mb-3">
+        <div class="col-lg-4 col-md-6 mb-3">
             <div class="card shadow-sm">
                 <div class="card-header bg-primary text-white py-2">
                     <h6 class="mb-0 small font-weight-bold"><i class="fas fa-clock mr-1"></i>Tense Accuracy</h6>
@@ -20,7 +20,7 @@
             </div>
         </div>
 
-        <div class="col-lg-5 col-md-6 mb-3">
+        <div class="col-lg-4 col-md-6 mb-3">
             <div class="card shadow-sm">
                 <div class="card-header bg-success text-white py-2">
                     <h6 class="mb-0 small font-weight-bold"><i class="fas fa-users mr-1"></i>Person Accuracy</h6>
@@ -32,18 +32,48 @@
                 </div>
             </div>
         </div>
-    </div>
 
-    @* <div class="row mt-3"> *@
-    @*     <div class="col-12"> *@
-    @*         <div class="alert alert-info py-2 px-3 mb-0"> *@
-    @*             <h6 class="font-weight-bold mb-2"><i class="fas fa-bullseye mr-1"></i>Improvement Tips</h6> *@
-    @*             <ul class="list-unstyled mb-0 small" id="suggestionsList"></ul> *@
-    @*         </div> *@
-    @*     </div> *@
-    @* </div> *@
+        <div class="col-lg-4 col-md-6 mb-3">
+            <div class="card shadow-sm">
+                <div class="card-header bg-info text-white py-2">
+                    <h6 class="mb-0 small font-weight-bold"><i class="fas fa-sync-alt mr-1"></i>Reflexive/Irregular Accuracy</h6>
+                </div>
+                <div class="card-body p-2">
+                    <div class="chart-container" style="height: 260px">
+                        <canvas id="reflexiveChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
+<div class="row table-container">
+    <div class="col-12">
+        <h5 class="font-weight-bold text-dark">Quiz History</h5>
+        <table class="table table-bordered table-striped">
+            <thead>
+            <tr>
+                <th>Date</th>
+                <th>Correct</th>
+                <th>Total</th>
+                <th>Accuracy</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var session in Model.QuizHistory)
+            {
+                <tr>
+                    <td>@session.AttemptedAt.ToString("yyyy-MM-dd")</td>
+                    <td>@session.Correct</td>
+                    <td>@session.Total</td>
+                    <td>@(Math.Round((session.Correct / (double)session.Total) * 100, 2))%</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
 
 @section Scripts {
     <script>
@@ -53,6 +83,7 @@
                 success: function(data) {
                     renderCompactChart('tenseChart', data.tenseEvaluations);
                     renderCompactChart('personChart', data.personEvaluations);
+                    renderCompactChart('reflexiveChart', data.reflexiveEvaluations);
                     populateSuggestions(data.suggestions);
                 }
             });

@@ -8,7 +8,6 @@ public class QuizResult
         
     // Question details
     public Guid WordId { get; set; }
-    // public string Infinitive { get; set; } bloat
     public string Person { get; set; }
     public string Tense { get; set; }
     public string CorrectAnswer { get; set; }
@@ -19,6 +18,9 @@ public class QuizResult
     public bool IsReflexive { get; set; }
     
     public Words Word { get; set; } //  Ez a kulcs
+    
+    
+    public bool IsCorrect => UserAnswer == CorrectAnswer;
     
   
 }

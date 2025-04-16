@@ -27,7 +27,25 @@ public class EvaluationRepository : IEvaluationRepository
             TenseEvaluations = GetTenseEvaluation(results),
             PersonEvaluations = GetPersonEvaluation(results),
             IrregularEvaluations = GetIrregularEvaluation(results),
-            ReflexiveEvaluations = GetReflexiveEvaluation(results)
+            ReflexiveEvaluations = GetReflexiveEvaluation(results),
+            QuizHistory = results
+            .GroupBy(r => r.AttemptedAt.Date)
+            .Select(g => new QuizSession
+            {
+            AttemptedAt = g.Key,
+            Correct = g.Count(x => x.IsCorrect),
+            Total = g.Count(),
+            Details = g.Select(x => new QuizResultDetails
+            {
+                Infinitive = x.Word.Infinitive,
+                Tense = x.Tense,
+                Person = x.Person,
+                CorrectAnswer = x.CorrectAnswer,
+                UserAnswer = x.UserAnswer,
+                IsCorrect = x.IsCorrect
+            }).ToList()
+        })
+        .ToList()
         };
     }
 
@@ -82,7 +100,7 @@ public class EvaluationRepository : IEvaluationRepository
             .Select(g => new Evaluation
             {
                 Category = "Verb Type",
-                Label = g.Key ? "Rendhagyó igék" : "Szabályos igék",
+                Label = g.Key ? "Irregular Verbs" : "Regular Verbs",
                 TotalAttempts = g.Count(),
                 CorrectAnswers = g.Count(x => x.UserAnswer == x.CorrectAnswer)
             })
@@ -95,8 +113,8 @@ public class EvaluationRepository : IEvaluationRepository
             .GroupBy(r => r.IsReflexive)
             .Select(g => new Evaluation
             {
-                Category = "Reflexivitás",
-                Label = g.Key ? "Visszaható igék" : "Nem visszaható igék",
+                Category = "Reflexivity",
+                Label = g.Key ? "Reflexive Verbs" : "Irregular Verbs",
                 TotalAttempts = g.Count(),
                 CorrectAnswers = g.Count(x => x.UserAnswer == x.CorrectAnswer)
             })
