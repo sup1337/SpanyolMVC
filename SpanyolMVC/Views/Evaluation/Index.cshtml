@@ -52,22 +52,59 @@
     <div class="col-12">
         <h5 class="font-weight-bold text-dark">Quiz History</h5>
         <table class="table table-bordered table-striped">
-            <thead>
+            <thead class="thead-dark">
             <tr>
                 <th>Date</th>
                 <th>Correct</th>
                 <th>Total</th>
                 <th>Accuracy</th>
+                <th>Details</th>
             </tr>
             </thead>
             <tbody>
             @foreach (var session in Model.QuizHistory)
             {
-                <tr>
-                    <td>@session.AttemptedAt.ToString("yyyy-MM-dd")</td>
+                <tr data-bs-toggle="collapse" data-bs-target="#details-@session.AttemptedAt.Ticks" class="clickable-row">
+                    <td>@session.AttemptedAt.ToString("yyyy-MM-dd HH:mm")</td>
                     <td>@session.Correct</td>
                     <td>@session.Total</td>
                     <td>@(Math.Round((session.Correct / (double)session.Total) * 100, 2))%</td>
+                    <td><i class="fas fa-chevron-down"></i></td>
+                </tr>
+                <tr class="collapse-row">
+                    <td colspan="5" class="p-0">
+                        <div id="details-@session.AttemptedAt.Ticks" class="collapse">
+                            <table class="table table-sm table-bordered mb-0">
+                                <thead>
+                                <tr>
+                                    <th>Infinitive</th>
+                                    <th>Tense</th>
+                                    <th>Person</th>
+                                    <th>Correct Answer</th>
+                                    <th>User Answer</th>
+                                    <th>Is Correct</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach (var detail in session.Details)
+                                {
+                                    <tr>
+                                        <td>@detail.Infinitive</td>
+                                        <td>@detail.Tense</td>
+                                        <td>@detail.Person</td>
+                                        <td>@detail.CorrectAnswer</td>
+                                        <td>@detail.UserAnswer</td>
+                                        <td>
+                                        <span class="badge @((detail.IsCorrect ? "bg-success" : "bg-danger"))">
+                                            @(detail.IsCorrect ? "Yes" : "No")
+                                        </span>
+                                        </td>
+                                    </tr>
+                                }
+                                </tbody>
+                            </table>
+                        </div>
+                    </td>
                 </tr>
             }
             </tbody>

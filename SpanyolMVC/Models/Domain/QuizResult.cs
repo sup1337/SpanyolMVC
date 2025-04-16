@@ -3,6 +3,8 @@ namespace SpanyolMVC.Models.Domain;
 public class QuizResult
 {
     public Guid Id { get; set; }
+    
+    public Guid QuizId { get; set; } // Shared across results in the same quiz
     public Guid UserId { get; set; }
     public DateTime AttemptedAt { get; set; }
         

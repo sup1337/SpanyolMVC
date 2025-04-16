@@ -36,7 +36,7 @@ public class QuizRepository : IQuizRepository
 
         var words = await query.ToListAsync();
         var random = new Random();
-        var randomWords = words.OrderBy(x => random.Next()).Take(numberOfQuestions * 2).ToList();
+        var randomWords = words.OrderBy(x => random.Next()).Take(numberOfQuestions).ToList();
 
         var quizQuestions = new List<Quiz>();
         var tensePersons = GetValidPersonsForTense(tense); // Új segédfüggvény
@@ -224,21 +224,23 @@ public class QuizRepository : IQuizRepository
     
     public async Task SaveQuizResultsAsync(List<QuizResultViewModel> results, ClaimsPrincipal user)
     {
-        // Get user ID as string
+        // Get user ID
         var userIdString = _userManager.GetUserId(user);
-    
-        // Convert to Guid (handle null/empty case)
         if (string.IsNullOrEmpty(userIdString))
         {
             throw new InvalidOperationException("User ID is missing.");
         }
         Guid userIdGuid = Guid.Parse(userIdString);
 
-        // Map results with Guid user ID
+        // Generate a single Guid for the quiz attempt
+        var quizId = Guid.NewGuid();
+
+        // Map results
         var domainResults = results.Select(r => new QuizResult
         {
-            Id = Guid.NewGuid(),
-            UserId = userIdGuid, 
+            Id = Guid.NewGuid(), // Unique ID for each result
+            QuizId = quizId, // Shared ID for the quiz attempt
+            UserId = userIdGuid,
             AttemptedAt = DateTime.UtcNow,
             WordId = r.WordId,
             Person = r.Person,
@@ -247,7 +249,6 @@ public class QuizRepository : IQuizRepository
             UserAnswer = r.UserAnswer,
             IsIrregular = r.IsIrregular,
             IsReflexive = r.IsReflexive
-            
         }).ToList();
 
         await _spanishDbContext.QuizResults.AddRangeAsync(domainResults);

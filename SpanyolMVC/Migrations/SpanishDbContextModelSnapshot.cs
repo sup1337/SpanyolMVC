@@ -45,6 +45,9 @@ namespace SpanyolMVC.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("QuizId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Tense")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

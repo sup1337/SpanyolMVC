@@ -19,8 +19,28 @@ public class EvaluationRepository : IEvaluationRepository
         var results = await _spanishDbContext.QuizResults
             .Include(q => q.Word)
             .Where(q => q.UserId == userId)
+            .OrderByDescending(q => q.AttemptedAt) // Sort by date descending
             .AsNoTracking()
             .ToListAsync();
+
+        var groupedResults = results
+            .GroupBy(r => r.QuizId) // Group by QuizId
+            .OrderByDescending(g => g.First().AttemptedAt) // Sort by the first result's timestamp
+            .Select(g => new QuizSession
+            {
+                AttemptedAt = g.First().AttemptedAt,
+                Correct = g.Count(r => r.UserAnswer == r.CorrectAnswer),
+                Total = g.Count(),
+                Details = g.Select(r => new QuizResultDetails
+                {
+                    Infinitive = r.Word.Infinitive,
+                    Tense = r.Tense,
+                    Person = r.Person,
+                    CorrectAnswer = r.CorrectAnswer,
+                    UserAnswer = r.UserAnswer,
+                    IsCorrect = r.UserAnswer == r.CorrectAnswer
+                }).ToList()
+            }).ToList();
 
         return new EvaluationViewModel
         {
@@ -28,24 +48,7 @@ public class EvaluationRepository : IEvaluationRepository
             PersonEvaluations = GetPersonEvaluation(results),
             IrregularEvaluations = GetIrregularEvaluation(results),
             ReflexiveEvaluations = GetReflexiveEvaluation(results),
-            QuizHistory = results
-            .GroupBy(r => r.AttemptedAt.Date)
-            .Select(g => new QuizSession
-            {
-            AttemptedAt = g.Key,
-            Correct = g.Count(x => x.IsCorrect),
-            Total = g.Count(),
-            Details = g.Select(x => new QuizResultDetails
-            {
-                Infinitive = x.Word.Infinitive,
-                Tense = x.Tense,
-                Person = x.Person,
-                CorrectAnswer = x.CorrectAnswer,
-                UserAnswer = x.UserAnswer,
-                IsCorrect = x.IsCorrect
-            }).ToList()
-        })
-        .ToList()
+            QuizHistory = groupedResults
         };
     }
 
