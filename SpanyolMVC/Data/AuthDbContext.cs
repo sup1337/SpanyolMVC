@@ -86,7 +86,36 @@ public class AuthDbContext : IdentityDbContext
         };
 
         builder.Entity<IdentityUserRole<string>>().HasData(adminRoles);
+        
+        // Seeding a new hardcoded user
+        var newUserId = "a1b2c3d4-e5f6-7890-abcd-ef1234567890";
+        var newUser = new IdentityUser()
+        {
+            UserName = "newuser@spanyolmvc.com",
+            Email = "newuser@spanyolmvc.com",
+            NormalizedEmail = "NEWUSER@SPANYOLMVC.COM",
+            NormalizedUserName = "NEWUSER@SPANYOLMVC.COM",
+            Id = newUserId,
+            EmailConfirmed = true
+        };
+        newUser.PasswordHash = new PasswordHasher<IdentityUser>()
+            .HashPassword(newUser, "password123");
+
+        builder.Entity<IdentityUser>().HasData(newUser);
+
+        // Optionally assign roles to the new user
+        var newUserRoles = new List<IdentityUserRole<string>>
+        {
+            new IdentityUserRole<string>
+            {
+                RoleId = userRoleId, // Assuming "User" role already exists
+                UserId = newUserId
+            }
+        };
+
+        builder.Entity<IdentityUserRole<string>>().HasData(newUserRoles);
     }
+    
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
