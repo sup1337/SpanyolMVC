@@ -2,14 +2,13 @@
 
 @{
     ViewData["Title"] = "Spanish Quiz";
+    int totalQuestions = Model.Count;
 }
 
 <div class="container mt-5">
     <h2 class="text-center mb-4">Spanish Quiz</h2>
 
-    <div class="progress mb-4">
-        <div id="quiz-progress-bar" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-    </div>
+  
 
     <form id="quiz-form" method="post" asp-action="Evaluate" asp-controller="Quiz">
         <div id="quiz-container">
@@ -31,6 +30,8 @@
                                                              _ => question.Person
                                                          })</p>
                         <p class="card-text">Tense: @question.Tense</p>
+
+                        <p class="card-text">Question @(@i + 1) of @totalQuestions</p>
 
                         <input type="hidden" name="quizAnswers[@i].Id" value="@question.Id"/>
                         <input type="hidden" name="quizAnswers[@i].Person" value="@question.Person"/>
@@ -102,7 +103,7 @@
                 const correctLabel = $question.find('label[data-correct="true"]');
 
                 // !! A data() függvény BOOLEAN-t ad vissza, ne hasonlítsd stringgel !!
-                if (selectedLabel.data('correct') === true) { // <-- Itt a javítás
+                if (selectedLabel.data('correct') === true) {
                     selectedLabel.addClass('correct-answer');
                 } else {
                     selectedLabel.addClass('wrong-answer');
