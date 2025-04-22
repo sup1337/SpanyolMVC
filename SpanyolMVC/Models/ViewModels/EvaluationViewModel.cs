@@ -17,10 +17,11 @@ public class EvaluationViewModel
     
     public int TotalIncorrect => TotalAttempts - TotalCorrect;
         
-    public int CorrectPercentage => TotalAttempts > 0 ? 
-        (int)Math.Round((TotalCorrect / (double)TotalAttempts) * 100) : 0;
+    public double CorrectPercentage => TotalAttempts > 0 
+        ? Math.Round((TotalCorrect / (double)TotalAttempts) * 100, 2) 
+        : 0;
             
-    public int IncorrectPercentage => 100 - CorrectPercentage;
+    public double IncorrectPercentage => 100 - CorrectPercentage;
     
     public double OverallAccuracy => TotalAttempts > 0 
         ? Math.Round((TotalCorrect / (double)TotalAttempts) * 100, 2) 

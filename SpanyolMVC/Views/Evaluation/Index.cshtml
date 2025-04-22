@@ -58,19 +58,19 @@
                     <div class="progress" style="height: 30px;">
                         <div class="progress-bar bg-success"
                              role="progressbar"
-                             style="width: @(Model.CorrectPercentage)%"
+                             style="width: @(Model.CorrectPercentage.ToString("F2"))%"
                              aria-valuenow="@Model.CorrectPercentage"
                              aria-valuemin="0"
                              aria-valuemax="100">
-                            @Model.CorrectPercentage%
+                            @Model.CorrectPercentage.ToString("F2")%
                         </div>
                         <div class="progress-bar bg-danger"
                              role="progressbar"
-                             style="width: @(Model.IncorrectPercentage)%"
+                             style="width: @(Model.IncorrectPercentage.ToString("F2"))%"
                              aria-valuenow="@Model.IncorrectPercentage"
                              aria-valuemin="0"
                              aria-valuemax="100">
-                            @Model.IncorrectPercentage%
+                            @Model.IncorrectPercentage.ToString("F2")%
                         </div>
                     </div>
 
