@@ -36,11 +36,52 @@
         <div class="col-lg-4 col-md-6 mb-3">
             <div class="card shadow-sm">
                 <div class="card-header bg-info text-white py-2">
-                    <h6 class="mb-0 small font-weight-bold"><i class="fas fa-sync-alt mr-1"></i>Reflexive/Irregular Accuracy</h6>
+                    <h6 class="mb-0 small font-weight-bold"><i class="fas fa-sync-alt mr-1"></i>Reflexive/Irregular
+                        Accuracy</h6>
                 </div>
                 <div class="card-body p-2">
                     <div class="chart-container" style="height: 260px">
                         <canvas id="reflexiveChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <!-- Progress bar section -->
+                    <div class="progress" style="height: 30px;">
+                        <div class="progress-bar bg-success"
+                             role="progressbar"
+                             style="width: @(Model.CorrectPercentage)%"
+                             aria-valuenow="@Model.CorrectPercentage"
+                             aria-valuemin="0"
+                             aria-valuemax="100">
+                            @Model.CorrectPercentage%
+                        </div>
+                        <div class="progress-bar bg-danger"
+                             role="progressbar"
+                             style="width: @(Model.IncorrectPercentage)%"
+                             aria-valuenow="@Model.IncorrectPercentage"
+                             aria-valuemin="0"
+                             aria-valuemax="100">
+                            @Model.IncorrectPercentage%
+                        </div>
+                    </div>
+
+                    <!-- Stats below progress bar -->
+                    <div class="row mt-3 text-center">
+                        <div class="col-md-6">
+                            <span class="badge bg-success">@Model.TotalCorrect correct</span>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="badge bg-danger">@Model.TotalIncorrect incorrect</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -64,7 +105,8 @@
             <tbody>
             @foreach (var session in Model.QuizHistory)
             {
-                <tr data-bs-toggle="collapse" data-bs-target="#details-@session.AttemptedAt.Ticks" class="clickable-row">
+                <tr data-bs-toggle="collapse" data-bs-target="#details-@session.AttemptedAt.Ticks"
+                    class="clickable-row">
                     <td>@session.AttemptedAt.ToString("yyyy-MM-dd HH:mm")</td>
                     <td>@session.Correct</td>
                     <td>@session.Total</td>
@@ -114,10 +156,10 @@
 
 @section Scripts {
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $.ajax({
                 url: '@Url.Action("GetChartData", "Evaluation")',
-                success: function(data) {
+                success: function (data) {
                     renderCompactChart('tenseChart', data.tenseEvaluations);
                     renderCompactChart('personChart', data.personEvaluations);
                     renderCompactChart('reflexiveChart', data.reflexiveEvaluations);

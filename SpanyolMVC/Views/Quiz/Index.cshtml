@@ -7,6 +7,10 @@
 <div class="container mt-5">
     <h2 class="text-center mb-4">Spanish Quiz</h2>
 
+    <div class="progress mb-4">
+        <div id="quiz-progress-bar" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+
     <form id="quiz-form" method="post" asp-action="Evaluate" asp-controller="Quiz">
         <div id="quiz-container">
             @for (int i = 0; i < Model.Count; i++)
@@ -79,25 +83,6 @@
 
 
 
-<style>
-    .option-container .form-check-label {
-        cursor: pointer;
-        transition: all 0.2s;
-        padding: 1rem;
-        border-radius: 0.5rem;
-    }
-    .option-container .correct-answer {
-        background-color: #28a745 !important;
-        border-color: #28a745 !important;
-        color: white !important;
-    }
-
-    .option-container .wrong-answer {
-        background-color: #dc3545 !important;
-        border-color: #dc3545 !important;
-        color: white !important;
-    }
-</style>
 
 @section Scripts {
     <script>
