@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "u4XF2m6Q4aGMFZLMD2pyxNgcSiw4eOwMwTQWL7AeZHY=",
+  "Hash": "xz6tGO0smztNO6rRwOyPPXS42sea6BeGiI0mpBVBagQ=",
   "Source": "SpanyolMVC",
   "BasePath": "_content/SpanyolMVC",
   "Mode": "Default",
@@ -1403,12 +1403,12 @@
       "OriginalItemSpec": "C:\\Users\\laszl\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\9.0.0\\staticwebassets\\V5\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js"
     },
     {
-      "Identity": "C:\\Users\\laszl\\RiderProjects\\SpanyolMVC\\SpanyolMVC\\SpanyolMVC\\obj\\Debug\\net9.0\\compressed\\0pugy45min-6rpzi938to.gz",
+      "Identity": "C:\\Users\\laszl\\RiderProjects\\SpanyolMVC\\SpanyolMVC\\SpanyolMVC\\obj\\Debug\\net9.0\\compressed\\0pugy45min-sh4cngcqq0.gz",
       "SourceId": "SpanyolMVC",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\laszl\\RiderProjects\\SpanyolMVC\\SpanyolMVC\\SpanyolMVC\\obj\\Debug\\net9.0\\compressed\\",
       "BasePath": "_content/SpanyolMVC",
-      "RelativePath": "css/site#[.{fingerprint=6rpzi938to}]?.css.gz",
+      "RelativePath": "css/site#[.{fingerprint=sh4cngcqq0}]?.css.gz",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Alternative",
@@ -1417,8 +1417,8 @@
       "RelatedAsset": "C:\\Users\\laszl\\RiderProjects\\SpanyolMVC\\SpanyolMVC\\SpanyolMVC\\wwwroot\\css\\site.css",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "dxg24pdwag",
-      "Integrity": "MRqY/E/hPpl0D3fV5xOruayEsuKlxVoyFN0Jx/34kv0=",
+      "Fingerprint": "iknbemrjf5",
+      "Integrity": "7l0eakY3VCWkbbJaenU2cyRTL0KZV2/H4sSNQ9g60kA=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\laszl\\RiderProjects\\SpanyolMVC\\SpanyolMVC\\SpanyolMVC\\wwwroot\\css\\site.css"
@@ -4042,8 +4042,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "6rpzi938to",
-      "Integrity": "IrOyJtfavcYCWthoUn6FQEvj+muPvSNc8mkl/1oExyI=",
+      "Fingerprint": "sh4cngcqq0",
+      "Integrity": "wJhRsGXYTXYlTKt3Bw0LE94oLjM1/kB7rTY31E905q4=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\site.css"
@@ -5353,167 +5353,6 @@
   ],
   "Endpoints": [
     {
-      "Route": "css/site.6rpzi938to.css",
-      "AssetFile": "C:\\Users\\laszl\\RiderProjects\\SpanyolMVC\\SpanyolMVC\\SpanyolMVC\\obj\\Debug\\net9.0\\compressed\\0pugy45min-6rpzi938to.gz",
-      "Selectors": [
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip",
-          "Quality": "0.001239157373"
-        }
-      ],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "806"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"MRqY/E/hPpl0D3fV5xOruayEsuKlxVoyFN0Jx/34kv0=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Tue, 22 Apr 2025 15:58:53 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "W/\"IrOyJtfavcYCWthoUn6FQEvj+muPvSNc8mkl/1oExyI=\""
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "6rpzi938to"
-        },
-        {
-          "Name": "label",
-          "Value": "css/site.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-IrOyJtfavcYCWthoUn6FQEvj+muPvSNc8mkl/1oExyI="
-        }
-      ]
-    },
-    {
-      "Route": "css/site.6rpzi938to.css",
-      "AssetFile": "C:\\Users\\laszl\\RiderProjects\\SpanyolMVC\\SpanyolMVC\\SpanyolMVC\\wwwroot\\css\\site.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "2303"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"IrOyJtfavcYCWthoUn6FQEvj+muPvSNc8mkl/1oExyI=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Tue, 22 Apr 2025 15:58:53 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "6rpzi938to"
-        },
-        {
-          "Name": "label",
-          "Value": "css/site.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-IrOyJtfavcYCWthoUn6FQEvj+muPvSNc8mkl/1oExyI="
-        }
-      ]
-    },
-    {
-      "Route": "css/site.6rpzi938to.css.gz",
-      "AssetFile": "C:\\Users\\laszl\\RiderProjects\\SpanyolMVC\\SpanyolMVC\\SpanyolMVC\\obj\\Debug\\net9.0\\compressed\\0pugy45min-6rpzi938to.gz",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "806"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"MRqY/E/hPpl0D3fV5xOruayEsuKlxVoyFN0Jx/34kv0=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Tue, 22 Apr 2025 15:58:53 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "6rpzi938to"
-        },
-        {
-          "Name": "label",
-          "Value": "css/site.css.gz"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-MRqY/E/hPpl0D3fV5xOruayEsuKlxVoyFN0Jx/34kv0="
-        }
-      ]
-    },
-    {
       "Route": "css/site.css",
       "AssetFile": "C:\\Users\\laszl\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\9.0.0\\staticwebassets\\css\\site.css",
       "Selectors": [],
@@ -5552,7 +5391,7 @@
     },
     {
       "Route": "css/site.css",
-      "AssetFile": "C:\\Users\\laszl\\RiderProjects\\SpanyolMVC\\SpanyolMVC\\SpanyolMVC\\obj\\Debug\\net9.0\\compressed\\0pugy45min-6rpzi938to.gz",
+      "AssetFile": "C:\\Users\\laszl\\RiderProjects\\SpanyolMVC\\SpanyolMVC\\SpanyolMVC\\obj\\Debug\\net9.0\\compressed\\0pugy45min-sh4cngcqq0.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
@@ -5571,11 +5410,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"MRqY/E/hPpl0D3fV5xOruayEsuKlxVoyFN0Jx/34kv0=\""
+          "Value": "\"7l0eakY3VCWkbbJaenU2cyRTL0KZV2/H4sSNQ9g60kA=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 22 Apr 2025 15:58:53 GMT"
+          "Value": "Thu, 15 May 2025 16:25:11 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -5595,13 +5434,13 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"IrOyJtfavcYCWthoUn6FQEvj+muPvSNc8mkl/1oExyI=\""
+          "Value": "W/\"wJhRsGXYTXYlTKt3Bw0LE94oLjM1/kB7rTY31E905q4=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-IrOyJtfavcYCWthoUn6FQEvj+muPvSNc8mkl/1oExyI="
+          "Value": "sha256-wJhRsGXYTXYlTKt3Bw0LE94oLjM1/kB7rTY31E905q4="
         }
       ]
     },
@@ -5616,7 +5455,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "2303"
+          "Value": "2305"
         },
         {
           "Name": "Content-Type",
@@ -5624,11 +5463,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"IrOyJtfavcYCWthoUn6FQEvj+muPvSNc8mkl/1oExyI=\""
+          "Value": "\"wJhRsGXYTXYlTKt3Bw0LE94oLjM1/kB7rTY31E905q4=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 22 Apr 2025 15:58:53 GMT"
+          "Value": "Thu, 15 May 2025 16:25:11 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -5638,13 +5477,13 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-IrOyJtfavcYCWthoUn6FQEvj+muPvSNc8mkl/1oExyI="
+          "Value": "sha256-wJhRsGXYTXYlTKt3Bw0LE94oLjM1/kB7rTY31E905q4="
         }
       ]
     },
     {
       "Route": "css/site.css.gz",
-      "AssetFile": "C:\\Users\\laszl\\RiderProjects\\SpanyolMVC\\SpanyolMVC\\SpanyolMVC\\obj\\Debug\\net9.0\\compressed\\0pugy45min-6rpzi938to.gz",
+      "AssetFile": "C:\\Users\\laszl\\RiderProjects\\SpanyolMVC\\SpanyolMVC\\SpanyolMVC\\obj\\Debug\\net9.0\\compressed\\0pugy45min-sh4cngcqq0.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -5661,11 +5500,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"MRqY/E/hPpl0D3fV5xOruayEsuKlxVoyFN0Jx/34kv0=\""
+          "Value": "\"7l0eakY3VCWkbbJaenU2cyRTL0KZV2/H4sSNQ9g60kA=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 22 Apr 2025 15:58:53 GMT"
+          "Value": "Thu, 15 May 2025 16:25:11 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -5683,7 +5522,168 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-MRqY/E/hPpl0D3fV5xOruayEsuKlxVoyFN0Jx/34kv0="
+          "Value": "sha256-7l0eakY3VCWkbbJaenU2cyRTL0KZV2/H4sSNQ9g60kA="
+        }
+      ]
+    },
+    {
+      "Route": "css/site.sh4cngcqq0.css",
+      "AssetFile": "C:\\Users\\laszl\\RiderProjects\\SpanyolMVC\\SpanyolMVC\\SpanyolMVC\\obj\\Debug\\net9.0\\compressed\\0pugy45min-sh4cngcqq0.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.001239157373"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "806"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"7l0eakY3VCWkbbJaenU2cyRTL0KZV2/H4sSNQ9g60kA=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 15 May 2025 16:25:11 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"wJhRsGXYTXYlTKt3Bw0LE94oLjM1/kB7rTY31E905q4=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "sh4cngcqq0"
+        },
+        {
+          "Name": "label",
+          "Value": "css/site.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-wJhRsGXYTXYlTKt3Bw0LE94oLjM1/kB7rTY31E905q4="
+        }
+      ]
+    },
+    {
+      "Route": "css/site.sh4cngcqq0.css",
+      "AssetFile": "C:\\Users\\laszl\\RiderProjects\\SpanyolMVC\\SpanyolMVC\\SpanyolMVC\\wwwroot\\css\\site.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "2305"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"wJhRsGXYTXYlTKt3Bw0LE94oLjM1/kB7rTY31E905q4=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 15 May 2025 16:25:11 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "sh4cngcqq0"
+        },
+        {
+          "Name": "label",
+          "Value": "css/site.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-wJhRsGXYTXYlTKt3Bw0LE94oLjM1/kB7rTY31E905q4="
+        }
+      ]
+    },
+    {
+      "Route": "css/site.sh4cngcqq0.css.gz",
+      "AssetFile": "C:\\Users\\laszl\\RiderProjects\\SpanyolMVC\\SpanyolMVC\\SpanyolMVC\\obj\\Debug\\net9.0\\compressed\\0pugy45min-sh4cngcqq0.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "806"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"7l0eakY3VCWkbbJaenU2cyRTL0KZV2/H4sSNQ9g60kA=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 15 May 2025 16:25:11 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "sh4cngcqq0"
+        },
+        {
+          "Name": "label",
+          "Value": "css/site.css.gz"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-7l0eakY3VCWkbbJaenU2cyRTL0KZV2/H4sSNQ9g60kA="
         }
       ]
     },

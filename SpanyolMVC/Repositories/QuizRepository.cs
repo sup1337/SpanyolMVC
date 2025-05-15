@@ -198,12 +198,7 @@ public class QuizRepository : IQuizRepository
                 options.Add(randomOption);
             }
         }
-
-        // If still not enough options, pad with empty strings or handle accordingly
-        // while (options.Count < 6)
-        // {
-        //     options.Add("N/A");
-        // }
+        
 
         return options.OrderBy(x => random.Next()).ToList();
     }

@@ -804,4 +804,4 @@ C:\Users\laszl\RiderProjects\SpanyolMVC\SpanyolMVC\SpanyolMVC\obj\Debug\net9.0\r
 C:\Users\laszl\RiderProjects\SpanyolMVC\SpanyolMVC\SpanyolMVC\obj\Debug\net9.0\SpanyolMVC.pdb
 C:\Users\laszl\RiderProjects\SpanyolMVC\SpanyolMVC\SpanyolMVC\obj\Debug\net9.0\SpanyolMVC.genruntimeconfig.cache
 C:\Users\laszl\RiderProjects\SpanyolMVC\SpanyolMVC\SpanyolMVC\obj\Debug\net9.0\ref\SpanyolMVC.dll
-C:\Users\laszl\RiderProjects\SpanyolMVC\SpanyolMVC\SpanyolMVC\obj\Debug\net9.0\compressed\0pugy45min-6rpzi938to.gz
+C:\Users\laszl\RiderProjects\SpanyolMVC\SpanyolMVC\SpanyolMVC\obj\Debug\net9.0\compressed\0pugy45min-sh4cngcqq0.gz

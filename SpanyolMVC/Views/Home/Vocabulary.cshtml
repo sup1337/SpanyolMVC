@@ -1,0 +1,155 @@
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using SpanyolMVC.Models.Domain
+@model List<SpanyolMVC.Models.Domain.Words>
+@{
+    ViewData["Title"] = "Spanish Vocabulary";
+    var selectedLanguage = ViewBag.SelectedLanguage as string ?? "english";
+    var selectedDifficulty = ViewBag.SelectedDifficulty as int?;
+    var selectedGroup = ViewBag.SelectedGroup as int?;
+}
+
+<div class="container mt-4">
+    <div class="row mb-4 g-3">
+        <div class="col-md-3">
+            <select id="difficultyFilter" class="form-select">
+                <option value="">All Difficulties</option>
+                <option value="1" selected="@(selectedDifficulty == 1)">Beginner</option>
+                <option value="2" selected="@(selectedDifficulty == 2)">Intermediate</option>
+                <option value="3" selected="@(selectedDifficulty == 3)">Advanced</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <select id="groupFilter" class="form-select">
+                <option value="">All Groups</option>
+                <option value="1" selected="@(selectedGroup == 1)">-ar verbs</option>
+                <option value="2" selected="@(selectedGroup == 2)">-er verbs</option>
+                <option value="3" selected="@(selectedGroup == 3)">-ir verbs</option>
+                <option value="4" selected="@(selectedGroup == 4)">Irregular</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <select id="languageFilter" class="form-select">
+                <option value="hungarian" selected="@(selectedLanguage == "hungarian")">Hungarian</option>
+                <option value="english" selected="@(selectedLanguage == "english")">English</option>
+                <option value="german" selected="@(selectedLanguage == "german")">German</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <button onclick="location.reload()" class="btn btn-outline-dark w-100">
+                <i class="bi bi-arrow-clockwise"></i> Reset
+            </button>
+        </div>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        @foreach (var word in Model)
+        {
+            <div class="col">
+                <div class="card h-100 verb-card">
+                    <div class="card-front card-body d-flex flex-column">
+                        <div class="d-flex justify-content-between">
+                            <h5 class="card-title">@word.Infinitive</h5>
+                            @if (word.Infinitive.EndsWith("se"))
+                            {
+                                <span class="badge bg-warning">Reflexive</span>
+                            }
+                        </div>
+                        <div class="mt-auto text-center">
+                            <p class="display-6">@GetTranslation(word, selectedLanguage)</p>
+                            <small class="text-muted">Click to flip</small>
+                        </div>
+                    </div>
+                    <div class="card-back card-body">
+                        <h6 class="text-muted mb-3">Conjugations</h6>
+                        <div class="row small">
+                            <div class="col-6">yo</div>
+                            <div class="col-6 text-end">@word.Present1</div>
+                            <div class="col-6">tú</div>
+                            <div class="col-6 text-end">@word.Present2</div>
+                            <div class="col-6">él/ella</div>
+                            <div class="col-6 text-end">@word.Present3</div>
+                        </div>
+                        <div class="mt-3 text-center">
+                            <small class="text-muted">Difficulty: @GetDifficultyStars(word.Difficulty)</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="d-flex justify-content-between mt-4">
+        @if (ViewBag.CurrentPage > 1)
+        {
+            <a href="@Url.Action("Vocabulary", new { difficulty = ViewBag.SelectedDifficulty, group = ViewBag.SelectedGroup, language = ViewBag.SelectedLanguage, page = ViewBag.CurrentPage - 1 })" class="btn btn-outline-primary">Previous</a>
+        }
+        else
+        {
+            <span></span>
+        }
+
+        @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+        {
+            <a href="@Url.Action("Vocabulary", new { difficulty = ViewBag.SelectedDifficulty, group = ViewBag.SelectedGroup, language = ViewBag.SelectedLanguage, page = ViewBag.CurrentPage + 1 })" class="btn btn-outline-primary">Next</a>
+        }
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.verb-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    card.classList.toggle('flipped');
+                });
+            });
+        });
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.verb-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    card.classList.toggle('flipped');
+                });
+            });
+        });
+
+        // Szűrők kezelése
+        document.querySelectorAll('select').forEach(select => {
+            select.addEventListener('change', function() {
+                const params = new URLSearchParams({
+                    difficulty: document.getElementById('difficultyFilter').value,
+                    group: document.getElementById('groupFilter').value,
+                    language: document.getElementById('languageFilter').value
+                });
+                
+                window.location.href = `/Home/Vocabulary?${params.toString()}`;
+            });
+        });
+    </script>
+}
+
+@functions {
+    private string GetTranslation(Words word, string language)
+    {
+        return language?.ToLower() switch
+        {
+            "hungarian" => word.Hungarian,
+            "german" => word.German,
+            _ => word.English // Default to English
+        };
+    }
+
+  @functions {
+      private string GetDifficultyStars(int difficulty)
+      {
+          // Hibakezelés és érték korlátozás
+          if (difficulty < 0) difficulty = 0;
+          if (difficulty > 5) difficulty = 5; // Maximum 5 csillag
+        
+          return string.Concat(Enumerable.Repeat("★", difficulty))
+                 + string.Concat(Enumerable.Repeat("☆", 5 - difficulty));
+      }
+  }
+}

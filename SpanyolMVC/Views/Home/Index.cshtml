@@ -1,8 +1,61 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿
+
+@model List<SpanyolMVC.Models.Domain.Words>
+@* Views/Home/Index.cshtml *@
+@{
+    ViewData["Title"] = "Spanish Learning Hub";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="hero-section text-center py-5 bg-light">
+    <h1 class="display-4 mb-4">Master Spanish Verbs</h1>
+    <div class="d-flex justify-content-center gap-3">
+        <a  class="btn btn-primary btn-lg" asp-controller="Home" asp-action="Vocabulary">
+            <i class="bi bi-book me-2"></i>Vocabulary
+        </a>
+        <a  class="btn btn-success btn-lg" asp-controller="Quiz" asp-action="Create">
+            <i class="bi bi-pencil-square me-2"></i>Start Quiz
+        </a>
+        <a class="btn btn-info btn-lg" asp-controller="Evaluation" asp-action="Index">
+        <i class="bi bi-check-circle me-2"></i>Evaluation
+        </a>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card h-100 border-primary">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-lightbulb me-2"></i>Quick Tips</h5>
+                    <ul class="list-unstyled">
+                        <li>Start with regular verbs</li>
+                        <li>Practice daily</li>
+                        <li>Use flashcards</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 border-success">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-graph-up me-2"></i>Progress</h5>
+                    <p>Track your learning journey</p>
+                    <div class="progress">
+                        <div class="progress-bar" style="width: 25%">25%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 border-info">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-award me-2"></i>Achievements</h5>
+                    <div class="d-flex flex-wrap gap-2">
+                        <span class="badge bg-primary">50 Verbs</span>
+                        <span class="badge bg-success">Perfect Week</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
