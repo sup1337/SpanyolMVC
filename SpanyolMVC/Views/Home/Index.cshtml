@@ -1,9 +1,8 @@
 ﻿
 
 @model List<SpanyolMVC.Models.Domain.Words>
-@* Views/Home/Index.cshtml *@
 @{
-    ViewData["Title"] = "Spanish Learning Hub";
+    ViewData["Title"] = "ElConjugador Hub";
 }
 
 <div class="hero-section text-center py-5 bg-light">
@@ -28,9 +27,10 @@
                 <div class="card-body">
                     <h5 class="card-title"><i class="bi bi-lightbulb me-2"></i>Quick Tips</h5>
                     <ul class="list-unstyled">
-                        <li>Start with regular verbs</li>
+                        <li>Focus on the most common verbs</li>
                         <li>Practice daily</li>
                         <li>Use flashcards</li>
+                        <li>Evaluate</li>
                     </ul>
                 </div>
             </div>
@@ -41,7 +41,7 @@
                     <h5 class="card-title"><i class="bi bi-graph-up me-2"></i>Progress</h5>
                     <p>Track your learning journey</p>
                     <div class="progress">
-                        <div class="progress-bar" style="width: 25%">25%</div>
+                        <div class="progress-bar" style="width: 25%">1%</div>
                     </div>
                 </div>
             </div>
@@ -53,6 +53,7 @@
                     <div class="d-flex flex-wrap gap-2">
                         <span class="badge bg-primary">50 Verbs</span>
                         <span class="badge bg-success">Perfect Week</span>
+                        <span class="badge bg-warning">First Quiz</span>
                     </div>
                 </div>
             </div>

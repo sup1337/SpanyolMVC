@@ -1,5 +1,4 @@
 using System.Diagnostics;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SpanyolMVC.Data;
@@ -33,7 +32,7 @@ public class HomeController : Controller
         return View();
     }
     
-    // HomeController.cs (add this action)
+    
     public async Task<IActionResult> StudyVerbs(int? difficulty, int? group)
     {
         var verbs = await _context.Words
@@ -43,10 +42,10 @@ public class HomeController : Controller
     
         return Json(verbs);
     }
-    // HomeController.cs - egészítsd ki a meglévővel
+    
    
 
-    public async Task<IActionResult> Vocabulary(int? difficulty, int? group, string language = "english", int page = 1, int pageSize = 5)
+    public async Task<IActionResult> Vocabulary(int? difficulty, int? group, string language = "english", int page = 1, int pageSize = 6)
     {
         var query = _context.Words.AsQueryable();
 
