@@ -9,7 +9,7 @@
 }
 
 <div class="container mt-4">
-    <div class="row mb-5 g-3">
+    <div class="row mb-4 g-3">
         <div class="col-md-3">
             <select id="groupFilter" class="form-select">
                 <option value="">All Verbs</option>
@@ -43,7 +43,7 @@
         </div>
     </div>
 
-    <div class="kartyak row row-cols-1 row-cols-md-2 row-cols-lg-3 g-5">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-5">
         @foreach (var word in Model)
         {
             <div class="col">
@@ -59,22 +59,23 @@
                             <small class="text-muted">Click to flip</small>
                         </div>
                         <div class="card-back card-body d-flex flex-column justify-content-center align-items-center">
-                            <h6 class="text-muted mb-3">Conjugations (<span id="selected-tense">Present</span>)</h6>
+                            <h6 class="text-muted mb-3">Conjugations (<span id="selected-tense">@ViewBag.SelectedTense</span>)</h6>
                             <div class="row small text-center">
                                 <div class="col-6">yo</div>
-                                <div class="col-6">@word.Present1</div>
+                                <div class="col-6">@GetConjugation(word, "1", ViewBag.SelectedTense)</div>
                                 <div class="col-6">tú</div>
-                                <div class="col-6">@word.Present2</div>
+                                <div class="col-6">@GetConjugation(word, "2", ViewBag.SelectedTense)</div>
                                 <div class="col-6">él/ella</div>
-                                <div class="col-6">@word.Present3</div>
+                                <div class="col-6">@GetConjugation(word, "3", ViewBag.SelectedTense)</div>
                                 <div class="col-6">nosotros</div>
-                                <div class="col-6">@word.Present4</div>
+                                <div class="col-6">@GetConjugation(word, "4", ViewBag.SelectedTense)</div>
                                 <div class="col-6">vosotros</div>
-                                <div class="col-6">@word.Present5</div>
+                                <div class="col-6">@GetConjugation(word, "5", ViewBag.SelectedTense)</div>
                                 <div class="col-6">ellos/ellas</div>
-                                <div class="col-6">@word.Present6</div>
+                                <div class="col-6">@GetConjugation(word, "6", ViewBag.SelectedTense)</div>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -106,7 +107,12 @@
                 const group = $("#groupFilter").val();
                 const language = $("#languageFilter").val();
                 const tense = $("#tenseFilter").val();
-                const params = new URLSearchParams({ group, language, tense });
+
+                const params = new URLSearchParams({
+                    group,
+                    language,
+                    tense
+                });
 
                 window.location.href = `/Home/Vocabulary?${params.toString()}`;
             });
@@ -119,7 +125,8 @@
                 $(".conjugation-person").each(function () {
                     const person = $(this).data("person");
                     const wordId = $(this).closest(".verb-card").data("word-id");
-                    
+
+                    // Fetch conjugation dynamically (replace with actual logic if needed)
                     const conjugation = getConjugation(wordId, selectedTense, person);
                     $(this).text(conjugation);
                 });
@@ -144,4 +151,77 @@
             _ => word.English // Default to English
         };
     }
+private string GetConjugation(Words word, string person, string tense)
+    {
+        tense = tense?.ToLowerInvariant();
+
+        return (tense, person) switch
+        {
+            
+            ("present", "1") => word.Present1,
+            ("present", "2") => word.Present2,
+            ("present", "3") => word.Present3,
+            ("present", "4") => word.Present4,
+            ("present", "5") => word.Present5,
+            ("present", "6") => word.Present6,
+
+            ("past", "1") => word.Imperfect1,
+            ("past", "2") => word.Imperfect2,
+            ("past", "3") => word.Imperfect3,
+            ("past", "4") => word.Imperfect4,
+            ("past", "5") => word.Imperfect5,
+            ("past", "6") => word.Imperfect6,
+                
+            ("Indefinite", "1") => word.Indefinite1,
+            ("Indefinite", "2") => word.Indefinite2,
+            ("Indefinite", "3") => word.Indefinite3,
+            ("Indefinite", "4") => word.Indefinite4,
+            ("Indefinite", "5") => word.Indefinite5,
+            ("Indefinite", "6") => word.Indefinite6,
+                
+            ("future", "1") => word.Future1,
+            ("future", "2") => word.Future2,
+            ("future", "3") => word.Future3,
+            ("future", "4") => word.Future4,
+            ("future", "5") => word.Future5,
+            ("future", "6") => word.Future6,
+
+            ("conditional", "1") => word.Conditional1,
+            ("conditional", "2") => word.Conditional2,
+            ("conditional", "3") => word.Conditional3,
+            ("conditional", "4") => word.Conditional4,
+            ("conditional", "5") => word.Conditional5,
+            ("conditional", "6") => word.Conditional6,
+
+            ("subjunctivepresent", "1") => word.SubjunctivePresent1,
+            ("subjunctivepresent", "2") => word.SubjunctivePresent2,
+            ("subjunctivepresent", "3") => word.SubjunctivePresent3,
+            ("subjunctivepresent", "4") => word.SubjunctivePresent4,
+            ("subjunctivepresent", "5") => word.SubjunctivePresent5,
+            ("subjunctivepresent", "6") => word.SubjunctivePresent6,
+
+            ("subjunctiveimperfect", "1") => word.SubjunctiveImperfect1,
+            ("subjunctiveimperfect", "2") => word.SubjunctiveImperfect2,
+            ("subjunctiveimperfect", "3") => word.SubjunctiveImperfect3,
+            ("subjunctiveimperfect", "4") => word.SubjunctiveImperfect4,
+            ("subjunctiveimperfect", "5") => word.SubjunctiveImperfect5,
+            ("subjunctiveimperfect", "6") => word.SubjunctiveImperfect6,
+
+            ("imperativepositive", "2") => word.ImperativePositive2,
+            ("imperativepositive", "3") => word.ImperativePositive3,
+            ("imperativepositive", "4") => word.ImperativePositive4,
+            ("imperativepositive", "5") => word.ImperativePositive5,
+            ("imperativepositive", "6") => word.ImperativePositive6,
+
+            ("imperativenegative", "2") => word.ImperativeNegative2,
+            ("imperativenegative", "3") => word.ImperativeNegative3,
+            ("imperativenegative", "4") => word.ImperativeNegative4,
+            ("imperativenegative", "5") => word.ImperativeNegative5,
+            ("imperativenegative", "6") => word.ImperativeNegative6,
+
+            _ => "-"
+        };
+    }
+    
+    
 }

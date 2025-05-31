@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SpanyolMVC")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ad19d90af41b0cf6b20ed1ae73ca1b99fe1cce03")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e23c421b87b5673bc2ee4583a6b5132f68c700bf")]
 [assembly: System.Reflection.AssemblyProductAttribute("SpanyolMVC")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SpanyolMVC")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
