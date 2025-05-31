@@ -9,22 +9,12 @@
 }
 
 <div class="container mt-4">
-    <div class="row mb-4 g-3">
-        <div class="col-md-3">
-            <select id="difficultyFilter" class="form-select">
-                <option value="">All Difficulties</option>
-                <option value="1" selected="@(selectedDifficulty == 1)">Beginner</option>
-                <option value="2" selected="@(selectedDifficulty == 2)">Intermediate</option>
-                <option value="3" selected="@(selectedDifficulty == 3)">Advanced</option>
-            </select>
-        </div>
+    <div class="row mb-5 g-3">
         <div class="col-md-3">
             <select id="groupFilter" class="form-select">
-                <option value="">All Groups</option>
-                <option value="1" selected="@(selectedGroup == 1)">-ar verbs</option>
-                <option value="2" selected="@(selectedGroup == 2)">-er verbs</option>
-                <option value="3" selected="@(selectedGroup == 3)">-ir verbs</option>
-                <option value="4" selected="@(selectedGroup == 4)">Irregular</option>
+                <option value="">All Verbs</option>
+                <option value="0" selected="@(ViewBag.SelectedGroup == 0)">Regular</option>
+                <option value="1" selected="@(ViewBag.SelectedGroup == 1)">Irregular</option>
             </select>
         </div>
         <div class="col-md-3">
@@ -35,42 +25,55 @@
             </select>
         </div>
         <div class="col-md-3">
+            <select id="tenseFilter" class="form-select">
+                <option value="Present">Present</option>
+                <option value="Past">Past</option>
+                <option value="Future">Future</option>
+                <option value="Conditional">Conditional</option>
+                <option value="SubjunctivePresent">Subjunctive Present</option>
+                <option value="SubjunctiveImperfect">Subjunctive Imperfect</option>
+                <option value="ImperativePositive">Imperative Positive</option>
+                <option value="ImperativeNegative">Imperative Negative</option>
+            </select>
+        </div>
+        <div class="col-md-3">
             <button onclick="location.reload()" class="btn btn-outline-dark w-100">
                 <i class="bi bi-arrow-clockwise"></i> Reset
             </button>
         </div>
     </div>
 
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    <div class="kartyak row row-cols-1 row-cols-md-2 row-cols-lg-3 g-5">
         @foreach (var word in Model)
         {
             <div class="col">
-                <div class="card h-100 verb-card">
-                    <div class="card-front card-body d-flex flex-column">
-                        <div class="d-flex justify-content-between">
+                <div class="card h-100 verb-card" data-word-id="@word.Id">
+                    <div class="card-inner">
+                        <div class="card-front card-body d-flex flex-column justify-content-center align-items-center">
                             <h5 class="card-title">@word.Infinitive</h5>
                             @if (word.Infinitive.EndsWith("se"))
                             {
                                 <span class="badge bg-warning">Reflexive</span>
                             }
-                        </div>
-                        <div class="mt-auto text-center">
-                            <p class="display-6">@GetTranslation(word, selectedLanguage)</p>
+                            <p class="mt-3">@GetTranslation(word, selectedLanguage)</p>
                             <small class="text-muted">Click to flip</small>
                         </div>
-                    </div>
-                    <div class="card-back card-body">
-                        <h6 class="text-muted mb-3">Conjugations</h6>
-                        <div class="row small">
-                            <div class="col-6">yo</div>
-                            <div class="col-6 text-end">@word.Present1</div>
-                            <div class="col-6">tú</div>
-                            <div class="col-6 text-end">@word.Present2</div>
-                            <div class="col-6">él/ella</div>
-                            <div class="col-6 text-end">@word.Present3</div>
-                        </div>
-                        <div class="mt-3 text-center">
-                            <small class="text-muted">Difficulty: @GetDifficultyStars(word.Difficulty)</small>
+                        <div class="card-back card-body d-flex flex-column justify-content-center align-items-center">
+                            <h6 class="text-muted mb-3">Conjugations (<span id="selected-tense">Present</span>)</h6>
+                            <div class="row small text-center">
+                                <div class="col-6">yo</div>
+                                <div class="col-6">@word.Present1</div>
+                                <div class="col-6">tú</div>
+                                <div class="col-6">@word.Present2</div>
+                                <div class="col-6">él/ella</div>
+                                <div class="col-6">@word.Present3</div>
+                                <div class="col-6">nosotros</div>
+                                <div class="col-6">@word.Present4</div>
+                                <div class="col-6">vosotros</div>
+                                <div class="col-6">@word.Present5</div>
+                                <div class="col-6">ellos/ellas</div>
+                                <div class="col-6">@word.Present6</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -81,51 +84,52 @@
     <div class="d-flex justify-content-between mt-4">
         @if (ViewBag.CurrentPage > 1)
         {
-            <a href="@Url.Action("Vocabulary", new { difficulty = ViewBag.SelectedDifficulty, group = ViewBag.SelectedGroup, language = ViewBag.SelectedLanguage, page = ViewBag.CurrentPage - 1 })" class="btn btn-outline-primary">Previous</a>
-        }
-        else
-        {
-            <span></span>
+            <a href="@Url.Action("Vocabulary", new { group = ViewBag.SelectedGroup, language = ViewBag.SelectedLanguage, page = ViewBag.CurrentPage - 1 })" class="btn btn-outline-primary">Previous</a>
         }
 
         @if (ViewBag.CurrentPage < ViewBag.TotalPages)
         {
-            <a href="@Url.Action("Vocabulary", new { difficulty = ViewBag.SelectedDifficulty, group = ViewBag.SelectedGroup, language = ViewBag.SelectedLanguage, page = ViewBag.CurrentPage + 1 })" class="btn btn-outline-primary">Next</a>
+            <a href="@Url.Action("Vocabulary", new { group = ViewBag.SelectedGroup, language = ViewBag.SelectedLanguage, page = ViewBag.CurrentPage + 1 })" class="btn btn-outline-primary">Next</a>
         }
     </div>
 </div>
-
-
-
 @section Scripts {
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('.verb-card').forEach(card => {
-                card.addEventListener('click', () => {
-                    card.classList.toggle('flipped');
-                });
+        $(document).ready(function () {
+            // Handle card flipping
+            $(".verb-card").on("click", function () {
+                $(this).toggleClass("flipped");
             });
-        });
-        
-        document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('.verb-card').forEach(card => {
-                card.addEventListener('click', () => {
-                    card.classList.toggle('flipped');
-                });
-            });
-        });
 
-        // Szűrők kezelése
-        document.querySelectorAll('select').forEach(select => {
-            select.addEventListener('change', function() {
-                const params = new URLSearchParams({
-                    difficulty: document.getElementById('difficultyFilter').value,
-                    group: document.getElementById('groupFilter').value,
-                    language: document.getElementById('languageFilter').value
-                });
-                
+            // Handle filter changes
+            $("#groupFilter, #languageFilter, #tenseFilter").on("change", function () {
+                const group = $("#groupFilter").val();
+                const language = $("#languageFilter").val();
+                const tense = $("#tenseFilter").val();
+                const params = new URLSearchParams({ group, language, tense });
+
                 window.location.href = `/Home/Vocabulary?${params.toString()}`;
             });
+
+            // Handle tense selection
+            $("#tenseFilter").on("change", function () {
+                const selectedTense = $(this).val();
+                $("#selected-tense").text(selectedTense);
+
+                $(".conjugation-person").each(function () {
+                    const person = $(this).data("person");
+                    const wordId = $(this).closest(".verb-card").data("word-id");
+                    
+                    const conjugation = getConjugation(wordId, selectedTense, person);
+                    $(this).text(conjugation);
+                });
+            });
+
+            // Mock function to get conjugation (replace with actual logic)
+            function getConjugation(wordId, tense, person) {
+                // Example logic: Replace with server-side or preloaded data
+                return `Mock-${tense}-${person}`;
+            }
         });
     </script>
 }
@@ -140,16 +144,4 @@
             _ => word.English // Default to English
         };
     }
-
-  @functions {
-      private string GetDifficultyStars(int difficulty)
-      {
-          // Hibakezelés és érték korlátozás
-          if (difficulty < 0) difficulty = 0;
-          if (difficulty > 5) difficulty = 5; // Maximum 5 csillag
-        
-          return string.Concat(Enumerable.Repeat("★", difficulty))
-                 + string.Concat(Enumerable.Repeat("☆", 5 - difficulty));
-      }
-  }
 }
