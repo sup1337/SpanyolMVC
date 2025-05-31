@@ -45,18 +45,15 @@ public class HomeController : Controller
     
    
 
-    public async Task<IActionResult> Vocabulary(int? difficulty, int? group, string language = "english", int page = 1, int pageSize = 6)
+    public async Task<IActionResult> Vocabulary(int? group, string language = "english", int page = 1, int pageSize = 6)
     {
         var query = _context.Words.AsQueryable();
 
-        if (difficulty.HasValue)
-        {
-            query = query.Where(w => w.Difficulty == difficulty);
-        }
-
         if (group.HasValue)
         {
-            query = query.Where(w => w.Group == group);
+            query = group == 1
+                ? query.Where(w => w.Group >= 100) // Irregular verbs
+                : query.Where(w => w.Group < 100); // Regular verbs
         }
 
         var totalItems = await query.CountAsync();
@@ -66,7 +63,6 @@ public class HomeController : Controller
             .Take(pageSize)
             .ToListAsync();
 
-        ViewBag.SelectedDifficulty = difficulty;
         ViewBag.SelectedGroup = group;
         ViewBag.SelectedLanguage = language.ToLower();
         ViewBag.CurrentPage = page;
