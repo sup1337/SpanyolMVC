@@ -34,7 +34,6 @@
         </div>
         <div class="col-md-3">
             <select id="tenseFilter" class="form-select">
-                <option value="gerund-participle" selected="@(selectedTense == "gerund-participle")">Gerund/Participle</option>
                 <option value="Present" selected="@(selectedTense == "Present")">Present</option>
                 <option value="gerund-participle" selected="@(selectedTense == "gerund-participle")">Gerund/Participle</option>
                 <option value="Indefinite" selected="@(selectedTense == "Indefinite")">Indefinite</option>
@@ -48,6 +47,22 @@
             </select>
         </div>
     </div>
+
+    <form id="searchForm" method="get" class="row mb-4">
+        <div class="col-md-10">
+            <input type="text" name="searchTerm" id="searchInput" class="form-control" placeholder="Search verbs..."
+                   value="@ViewBag.SearchTerm" />
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-warning">Search</button>
+        </div>
+
+        <!-- Hidden filters to preserve current selections -->
+        <input type="hidden" name="group" value="@ViewBag.SelectedGroup" />
+        <input type="hidden" name="language" value="@ViewBag.SelectedLanguage" />
+        <input type="hidden" name="tense" value="@ViewBag.SelectedTense" />
+        <input type="hidden" name="reflexive" value="@ViewBag.SelectedReflexive" />
+    </form>
 
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-5">
         @foreach (var word in Model)
@@ -99,17 +114,38 @@
         }
     </div>
 
+    @if (!Model.Any())
+    {
+        <p class="text-center mt-4">No verbs found with the selected filters.</p>
+    }
+
+
     <div class="d-flex justify-content-between mt-4">
-      
-        @if (ViewBag.CurrentPage < ViewBag.TotalPages)
-        {
-            <a href="@Url.Action("Vocabulary", new { group = ViewBag.SelectedGroup, language = ViewBag.SelectedLanguage,tense= ViewBag.SelectedTense,reflexive = ViewBag.SelectedReflexive, page = ViewBag.CurrentPage + 1 })" class="btn btn-outline-primary">Next</a>
-        }
 
         @if (ViewBag.CurrentPage > 1)
         {
-            <a href="@Url.Action("Vocabulary", new { group = ViewBag.SelectedGroup, language = ViewBag.SelectedLanguage,tense= ViewBag.SelectedTense ,reflexive = ViewBag.SelectedReflexive,page = ViewBag.CurrentPage - 1 })" class="btn btn-outline-primary">Previous</a>
+            <a href="@Url.Action("Vocabulary", new {
+                         group = ViewBag.SelectedGroup,
+                         language = ViewBag.SelectedLanguage,
+                         tense = ViewBag.SelectedTense,
+                         reflexive = ViewBag.SelectedReflexive,
+                         searchTerm = ViewBag.SearchQuery,
+                         page = ViewBag.CurrentPage - 1
+                     })" class="btn btn-dark">Previous</a>
         }
+
+        @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+        {
+            <a href="@Url.Action("Vocabulary", new {
+                         group = ViewBag.SelectedGroup,
+                         language = ViewBag.SelectedLanguage,
+                         tense = ViewBag.SelectedTense,
+                         reflexive = ViewBag.SelectedReflexive,
+                         searchTerm = ViewBag.SearchQuery,
+                         page = ViewBag.CurrentPage + 1
+                     })" class="btn btn-dark">Next</a>
+        }
+
 
     </div>
 </div>
@@ -128,12 +164,14 @@
                 const tense = $("#tenseFilter").val();
                 const reflexiveVal = $("#reflexiveFilter").val();
                 const reflexive = reflexiveVal === "" ? "" : reflexiveVal;
+                const searchTerm = $("input[name='searchTerm']").val();
 
                 const params = new URLSearchParams({
                     group,
                     language,
                     tense,
-                    reflexive
+                    reflexive,
+                    searchTerm
                 });
 
                 window.location.href = `/Home/Vocabulary?${params.toString()}`;
@@ -148,17 +186,10 @@
                     const person = $(this).data("person");
                     const wordId = $(this).closest(".verb-card").data("word-id");
 
-                    // Fetch conjugation dynamically (replace with actual logic if needed)
-                    const conjugation = getConjugation(wordId, selectedTense, person);
-                    $(this).text(conjugation);
+                   
                 });
             });
-
-            // Mock function to get conjugation (replace with actual logic)
-            function getConjugation(wordId, tense, person) {
-                // Example logic: Replace with server-side or preloaded data
-                return `Mock-${tense}-${person}`;
-            }
+            
         });
     </script>
 }
