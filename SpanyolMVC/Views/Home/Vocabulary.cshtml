@@ -4,12 +4,20 @@
 @{
     ViewData["Title"] = "Spanish Vocabulary";
     var selectedLanguage = ViewBag.SelectedLanguage as string ?? "english";
-    var selectedDifficulty = ViewBag.SelectedDifficulty as int?;
     var selectedGroup = ViewBag.SelectedGroup as int?;
+    var selectedTense = ViewBag.SelectedTense as string ?? "Present";
+    var selectedReflexive = ViewBag.SelectedReflexive as bool?;
 }
 
 <div class="container mt-4">
     <div class="row mb-4 g-3">
+        <div class="col-md-3">
+            <select id="reflexiveFilter" class="form-select">
+                <option value="">All Verbs</option>
+                <option value="true" selected="@(ViewBag.SelectedReflexive == true)">Only Reflexive</option>
+                <option value="false" selected="@(ViewBag.SelectedReflexive == false)">Only Non-Reflexive</option>
+            </select>
+        </div>
         <div class="col-md-3">
             <select id="groupFilter" class="form-select">
                 <option value="">All Verbs</option>
@@ -26,20 +34,18 @@
         </div>
         <div class="col-md-3">
             <select id="tenseFilter" class="form-select">
-                <option value="Present">Present</option>
-                <option value="Past">Past</option>
-                <option value="Future">Future</option>
-                <option value="Conditional">Conditional</option>
-                <option value="SubjunctivePresent">Subjunctive Present</option>
-                <option value="SubjunctiveImperfect">Subjunctive Imperfect</option>
-                <option value="ImperativePositive">Imperative Positive</option>
-                <option value="ImperativeNegative">Imperative Negative</option>
+                <option value="gerund-participle" selected="@(selectedTense == "gerund-participle")">Gerund/Participle</option>
+                <option value="Present" selected="@(selectedTense == "Present")">Present</option>
+                <option value="gerund-participle" selected="@(selectedTense == "gerund-participle")">Gerund/Participle</option>
+                <option value="Indefinite" selected="@(selectedTense == "Indefinite")">Indefinite</option>
+                <option value="Past" selected="@(selectedTense == "Past")">Past</option>
+                <option value="Future" selected="@(selectedTense == "Future")">Future</option>
+                <option value="Conditional" selected="@(selectedTense == "Conditional")">Conditional</option>
+                <option value="SubjunctivePresent" selected="@(selectedTense == "SubjunctivePresent")">Subjunctive Present</option>
+                <option value="SubjunctiveImperfect" selected="@(selectedTense == "SubjunctiveImperfect")">Subjunctive Imperfect</option>
+                <option value="ImperativePositive" selected="@(selectedTense == "ImperativePositive")">Imperative Positive</option>
+                <option value="ImperativeNegative" selected="@(selectedTense == "ImperativeNegative")">Imperative Negative</option>
             </select>
-        </div>
-        <div class="col-md-3">
-            <button onclick="location.reload()" class="btn btn-outline-dark w-100">
-                <i class="bi bi-arrow-clockwise"></i> Reset
-            </button>
         </div>
     </div>
 
@@ -60,20 +66,31 @@
                         </div>
                         <div class="card-back card-body d-flex flex-column justify-content-center align-items-center">
                             <h6 class="text-muted mb-3">Conjugations (<span id="selected-tense">@ViewBag.SelectedTense</span>)</h6>
-                            <div class="row small text-center">
-                                <div class="col-6">yo</div>
-                                <div class="col-6">@GetConjugation(word, "1", ViewBag.SelectedTense)</div>
-                                <div class="col-6">tú</div>
-                                <div class="col-6">@GetConjugation(word, "2", ViewBag.SelectedTense)</div>
-                                <div class="col-6">él/ella</div>
-                                <div class="col-6">@GetConjugation(word, "3", ViewBag.SelectedTense)</div>
-                                <div class="col-6">nosotros</div>
-                                <div class="col-6">@GetConjugation(word, "4", ViewBag.SelectedTense)</div>
-                                <div class="col-6">vosotros</div>
-                                <div class="col-6">@GetConjugation(word, "5", ViewBag.SelectedTense)</div>
-                                <div class="col-6">ellos/ellas</div>
-                                <div class="col-6">@GetConjugation(word, "6", ViewBag.SelectedTense)</div>
-                            </div>
+                            @if (ViewBag.SelectedTense?.ToString().ToLower() != "gerund-participle")
+                            {
+                                <div class="row small text-center">
+                                    <div class="col-6">yo</div>
+                                    <div class="col-6">@GetConjugation(word, "1", ViewBag.SelectedTense)</div>
+                                    <div class="col-6">tú</div>
+                                    <div class="col-6">@GetConjugation(word, "2", ViewBag.SelectedTense)</div>
+                                    <div class="col-6">él/ella</div>
+                                    <div class="col-6">@GetConjugation(word, "3", ViewBag.SelectedTense)</div>
+                                    <div class="col-6">nosotros</div>
+                                    <div class="col-6">@GetConjugation(word, "4", ViewBag.SelectedTense)</div>
+                                    <div class="col-6">vosotros</div>
+                                    <div class="col-6">@GetConjugation(word, "5", ViewBag.SelectedTense)</div>
+                                    <div class="col-6">ellos/ellas</div>
+                                    <div class="col-6">@GetConjugation(word, "6", ViewBag.SelectedTense)</div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="text-center mt-3">
+                                    <strong>Infinitive:</strong> @word.Infinitive <br />
+                                    <strong>Gerund:</strong> @word.Gerund <br />
+                                    <strong>Participle:</strong> @word.Participle
+                                </div>
+                            }
                         </div>
 
                     </div>
@@ -83,15 +100,17 @@
     </div>
 
     <div class="d-flex justify-content-between mt-4">
-        @if (ViewBag.CurrentPage > 1)
-        {
-            <a href="@Url.Action("Vocabulary", new { group = ViewBag.SelectedGroup, language = ViewBag.SelectedLanguage, page = ViewBag.CurrentPage - 1 })" class="btn btn-outline-primary">Previous</a>
-        }
-
+      
         @if (ViewBag.CurrentPage < ViewBag.TotalPages)
         {
-            <a href="@Url.Action("Vocabulary", new { group = ViewBag.SelectedGroup, language = ViewBag.SelectedLanguage, page = ViewBag.CurrentPage + 1 })" class="btn btn-outline-primary">Next</a>
+            <a href="@Url.Action("Vocabulary", new { group = ViewBag.SelectedGroup, language = ViewBag.SelectedLanguage,tense= ViewBag.SelectedTense,reflexive = ViewBag.SelectedReflexive, page = ViewBag.CurrentPage + 1 })" class="btn btn-outline-primary">Next</a>
         }
+
+        @if (ViewBag.CurrentPage > 1)
+        {
+            <a href="@Url.Action("Vocabulary", new { group = ViewBag.SelectedGroup, language = ViewBag.SelectedLanguage,tense= ViewBag.SelectedTense ,reflexive = ViewBag.SelectedReflexive,page = ViewBag.CurrentPage - 1 })" class="btn btn-outline-primary">Previous</a>
+        }
+
     </div>
 </div>
 @section Scripts {
@@ -103,15 +122,18 @@
             });
 
             // Handle filter changes
-            $("#groupFilter, #languageFilter, #tenseFilter").on("change", function () {
+            $("#groupFilter, #languageFilter, #tenseFilter, #reflexiveFilter").on("change", function () {
                 const group = $("#groupFilter").val();
                 const language = $("#languageFilter").val();
                 const tense = $("#tenseFilter").val();
+                const reflexiveVal = $("#reflexiveFilter").val();
+                const reflexive = reflexiveVal === "" ? "" : reflexiveVal;
 
                 const params = new URLSearchParams({
                     group,
                     language,
-                    tense
+                    tense,
+                    reflexive
                 });
 
                 window.location.href = `/Home/Vocabulary?${params.toString()}`;
@@ -157,6 +179,10 @@ private string GetConjugation(Words word, string person, string tense)
 
         return (tense, person) switch
         {
+            ("gerund-participle", "1") => word.Infinitive,
+            ("gerund-participle", "2") => word.Gerund,
+            ("gerund-participle", "3") => word.Participle,
+            
             
             ("present", "1") => word.Present1,
             ("present", "2") => word.Present2,
@@ -172,12 +198,12 @@ private string GetConjugation(Words word, string person, string tense)
             ("past", "5") => word.Imperfect5,
             ("past", "6") => word.Imperfect6,
                 
-            ("Indefinite", "1") => word.Indefinite1,
-            ("Indefinite", "2") => word.Indefinite2,
-            ("Indefinite", "3") => word.Indefinite3,
-            ("Indefinite", "4") => word.Indefinite4,
-            ("Indefinite", "5") => word.Indefinite5,
-            ("Indefinite", "6") => word.Indefinite6,
+            ("indefinite", "1") => word.Indefinite1,
+            ("indefinite", "2") => word.Indefinite2,
+            ("indefinite", "3") => word.Indefinite3,
+            ("indefinite", "4") => word.Indefinite4,
+            ("indefinite", "5") => word.Indefinite5,
+            ("indefinite", "6") => word.Indefinite6,
                 
             ("future", "1") => word.Future1,
             ("future", "2") => word.Future2,
