@@ -45,7 +45,7 @@ public class HomeController : Controller
     
    
 
-    public async Task<IActionResult> Vocabulary(int? group, string language = "english",string tense = "Present", int page = 1, int pageSize = 6)
+    public async Task<IActionResult> Vocabulary(int? group, string language = "english",string tense = "Present", int page = 1, int pageSize = 6, bool? reflexive = null)
     {
         var query = _context.Words.AsQueryable();
 
@@ -55,6 +55,14 @@ public class HomeController : Controller
                 ? query.Where(w => w.Group >= 100) // Irregular verbs
                 : query.Where(w => w.Group < 100); // Regular verbs
         }
+        
+        if (reflexive != null)
+        {
+            query = reflexive == true
+                ? query.Where(w => w.Infinitive.EndsWith("se")) // Reflexive verbs
+                : query.Where(w => !w.Infinitive.EndsWith("se")); // Non-reflexive verbs
+        }
+
 
         var totalItems = await query.CountAsync();
         var words = await query
@@ -66,6 +74,7 @@ public class HomeController : Controller
         ViewBag.SelectedGroup = group;
         ViewBag.SelectedLanguage = language.ToLower();
         ViewBag.SelectedTense = tense;
+        ViewBag.SelectedReflexive = reflexive;
         ViewBag.CurrentPage = page;
         ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
 
