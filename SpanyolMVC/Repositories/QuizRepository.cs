@@ -108,6 +108,18 @@ public class QuizRepository : IQuizRepository
                 "6" => word.Present6,
                 _ => string.Empty
             },
+            
+            "Indefinite" => person switch
+            {
+                "1" => word.Indefinite1,
+                "2" => word.Indefinite2,
+                "3" => word.Indefinite3,
+                "4" => word.Indefinite4,
+                "5" => word.Indefinite5,
+                "6" => word.Indefinite6,
+                _ => string.Empty
+            },
+            
             "Past" => person switch
             {
                 "1" => word.Imperfect1,

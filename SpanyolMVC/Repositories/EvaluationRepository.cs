@@ -58,8 +58,8 @@ public class EvaluationRepository : IEvaluationRepository
         {
             {"Present", "Present"},
             {"Past", "Past"},
-            {"Future", "Future Tense"},
-            {"Conditional", "Conditional Mood"},
+            {"Future", "Future"},
+            {"Conditional", "Conditional"},
             {"SubjunctivePresent", "Subjunctive Present"},
             {"SubjunctiveImperfect", "Subjunctive Past"},
             {"ImperativePositive", "Imperative (Positive)"},
