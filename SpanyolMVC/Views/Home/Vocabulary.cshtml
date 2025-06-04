@@ -27,9 +27,10 @@
         </div>
         <div class="col-md-3">
             <select id="languageFilter" class="form-select">
-                <option value="hungarian" selected="@(selectedLanguage == "hungarian")">Hungarian</option>
                 <option value="english" selected="@(selectedLanguage == "english")">English</option>
+                <option value="hungarian" selected="@(selectedLanguage == "hungarian")">Hungarian</option>
                 <option value="german" selected="@(selectedLanguage == "german")">German</option>
+                <option value="french" selected="@(selectedLanguage == "french")">French</option>
             </select>
         </div>
         <div class="col-md-3">
@@ -201,6 +202,9 @@
         {
             "hungarian" => word.Hungarian,
             "german" => word.German,
+            "french" => word.French,
+            "italian" => word.Italian,
+                
             _ => word.English // Default to English
         };
     }

@@ -169,10 +169,10 @@ public class WordsRepository : IWordsRepository
             var word = new Words
             {
                 Hungarian = string.IsNullOrEmpty(worksheet.Cells[row, 1].Text) ? "nincs" : worksheet.Cells[row, 3].Text,
-                English = string.IsNullOrEmpty(worksheet.Cells[row, 2].Text) ? "nincs" : worksheet.Cells[row, 4].Text,
-                Italian = string.IsNullOrEmpty(worksheet.Cells[row, 3].Text) ? "nincs" : worksheet.Cells[row, 5].Text,
-                French = string.IsNullOrEmpty(worksheet.Cells[row, 4].Text) ? "nincs" : worksheet.Cells[row, 6].Text,
-                German = string.IsNullOrEmpty(worksheet.Cells[row, 5].Text) ? "nincs" : worksheet.Cells[row, 7].Text,
+                English = string.IsNullOrEmpty(worksheet.Cells[row, 2].Text) ? "nincsEng" : worksheet.Cells[row, 4].Text,
+                Italian = string.IsNullOrEmpty(worksheet.Cells[row, 3].Text) ? "nincsIt" : worksheet.Cells[row, 5].Text,
+                French = string.IsNullOrEmpty(worksheet.Cells[row, 4].Text) ? "nincsFR" : worksheet.Cells[row, 6].Text,
+                German = string.IsNullOrEmpty(worksheet.Cells[row, 5].Text) ? "nincsGer" : worksheet.Cells[row, 7].Text,
                 Difficulty = worksheet.Cells[row, 6].GetCellValue<int>(),
                 Group = worksheet.Cells[row, 7].GetCellValue<int>(),
                 Infinitive = worksheet.Cells[row, 8].Text,
