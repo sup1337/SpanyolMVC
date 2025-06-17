@@ -32,12 +32,12 @@ namespace SpanyolMVC.Controllers
 
         [HttpGet]
         public async Task<IActionResult> Index(int numberOfQuestions, string person, string tense, bool isIrregular,
-            bool isReflexive, int difficulty)
+            bool isReflexive, int difficulty,string translationLanguage)
         {
             if (numberOfQuestions <= 0) numberOfQuestions = 2;
 
             var quizQuestions = await _quizRepository.GenerateQuizQuestionsAsync(
-                numberOfQuestions, person, tense, isIrregular, isReflexive, difficulty
+                numberOfQuestions, person, tense, isIrregular, isReflexive, difficulty , translationLanguage
             );
 
             if (quizQuestions.Count < numberOfQuestions)
@@ -55,7 +55,8 @@ namespace SpanyolMVC.Controllers
                 CorrectAnswer = q.CorrectAnswer,
                 Options = q.Options,
                 IsReflexive = q.IsReflexive,
-                IsIrregular = q.IsIrregular
+                IsIrregular = q.IsIrregular,
+                Translation = q.Translation
             }).ToList();
 
             return View("Index", quizViewModels);

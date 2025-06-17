@@ -10,4 +10,7 @@ public class QuizViewModel
     public bool IsReflexive { get; set; }
     public bool IsIrregular { get; set; }
     public string UserAnswer { get; set; }
+    
+    public string Translation { get; set; }
+
 }

@@ -18,17 +18,24 @@
                 <div class="quiz-question card mb-3 @(i == 0 ? "active" : "d-none")" data-id="@question.Id"
                      data-index="@i">
                     <div class="card-body">
+                       
+
                         <h5 class="card-title">Infinitive: @question.Infinitive</h5>
+                        
+                        @if (!string.IsNullOrEmpty(question.Translation))
+                        {
+                            <p class="card-text">Translation: <em>@question.Translation</em></p>
+                        }
                         <p class="card-text">Person: @(question.Person switch
-                                                         {
-                                                             "1" => "yo",
-                                                             "2" => "tú",
-                                                             "3" => "él/ella/usted",
-                                                             "4" => "nosotros/nosotras",
-                                                             "5" => "vosotros/vosotras",
-                                                             "6" => "ellos/ellas/ustedes",
-                                                             _ => question.Person
-                                                         })</p>
+                                                     {
+                                                         "1" => "yo",
+                                                         "2" => "tú",
+                                                         "3" => "él/ella/usted",
+                                                         "4" => "nosotros/nosotras",
+                                                         "5" => "vosotros/vosotras",
+                                                         "6" => "ellos/ellas/ustedes",
+                                                         _ => question.Person
+                                                     })</p>
                         <p class="card-text">Tense: @question.Tense</p>
 
                         <p class="card-text">Question @(@i + 1) of @totalQuestions</p>
@@ -37,9 +44,9 @@
                         <input type="hidden" name="quizAnswers[@i].Person" value="@question.Person"/>
                         <input type="hidden" name="quizAnswers[@i].Tense" value="@question.Tense"/>
                         <input type="hidden" name="quizAnswers[@i].CorrectAnswer" value="@question.CorrectAnswer"/>
-                        <input type="hidden" name="quizAnswers[@i].Infinitive" value="@question.Infinitive" />
-                        <input type="hidden" name="quizAnswers[@i].IsIrregular" value="@question.IsIrregular.ToString().ToLower()" />
-                        <input type="hidden" name="quizAnswers[@i].IsReflexive" value="@question.IsReflexive.ToString().ToLower()" />
+                        <input type="hidden" name="quizAnswers[@i].Infinitive" value="@question.Infinitive"/>
+                        <input type="hidden" name="quizAnswers[@i].IsIrregular" value="@question.IsIrregular.ToString().ToLower()"/>
+                        <input type="hidden" name="quizAnswers[@i].IsReflexive" value="@question.IsReflexive.ToString().ToLower()"/>
 
                         <div class="options row g-3">
                             @foreach (var option in question.Options)

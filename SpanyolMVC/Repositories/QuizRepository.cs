@@ -19,7 +19,7 @@ public class QuizRepository : IQuizRepository
     }
 
     public async Task<List<Quiz>> GenerateQuizQuestionsAsync(int numberOfQuestions, string person, string tense,
-        bool isIrregular, bool isReflexive, int difficulty)
+        bool isIrregular, bool isReflexive, int difficulty,string translationLanguage)
     {
         var query = _spanishDbContext.Words.AsQueryable();
 
@@ -65,7 +65,15 @@ public class QuizRepository : IQuizRepository
                 CorrectAnswer = correctAnswer,
                 Options = GetOptions(word, selectedPerson, tense),
                 IsReflexive = word.Infinitive.EndsWith("se", StringComparison.OrdinalIgnoreCase),
-                IsIrregular = word.Group >= 100
+                IsIrregular = word.Group >= 100,
+                Translation = translationLanguage switch
+                {
+                "Hungarian" => word.Hungarian,
+                "English" => word.English,
+                "German" => word.German,
+                "Italian" => word.Italian,
+                _ => null
+            }
             });
         }
 
@@ -261,5 +269,6 @@ public class QuizRepository : IQuizRepository
         await _spanishDbContext.QuizResults.AddRangeAsync(domainResults);
         await _spanishDbContext.SaveChangesAsync();
     }
+    
     
 }

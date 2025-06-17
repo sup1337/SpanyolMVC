@@ -10,4 +10,6 @@ public class Quiz
     public List<string> Options { get; set; }
     public bool IsReflexive { get; set; }
     public bool IsIrregular { get; set; }
+    
+    public string Translation { get; set; } 
 }
