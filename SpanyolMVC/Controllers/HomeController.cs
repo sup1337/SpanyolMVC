@@ -65,7 +65,7 @@ public class HomeController : Controller
         if (!string.IsNullOrWhiteSpace(searchTerm))
         {
             query = query.Where(w =>
-                w.Infinitive.Contains(searchTerm));
+                w.Infinitive.StartsWith(searchTerm));
         }
 
 
